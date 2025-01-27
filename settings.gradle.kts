@@ -20,5 +20,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "HappyAndHealth"
-include(":app")
- 
+include(
+    ":app",
+    ":domain",
+)
