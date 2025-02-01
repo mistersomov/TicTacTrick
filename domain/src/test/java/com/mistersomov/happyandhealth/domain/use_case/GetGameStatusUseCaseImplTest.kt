@@ -1,13 +1,13 @@
-package com.mistersomov.domain.use_case
+package com.mistersomov.happyandhealth.domain.use_case
 
-import com.mistersomov.domain.entity.Cell
-import com.mistersomov.domain.entity.CellType.CROSS
-import com.mistersomov.domain.entity.CellType.EMPTY
-import com.mistersomov.domain.entity.CellType.ZERO
-import com.mistersomov.domain.entity.GameStatus
-import com.mistersomov.domain.entity.GameStatus.Continue
-import com.mistersomov.domain.entity.GameStatus.Draw
-import com.mistersomov.domain.entity.GameStatus.Victory
+import com.mistersomov.happyandhealth.domain.entity.Cell
+import com.mistersomov.happyandhealth.domain.entity.CellType.CROSS
+import com.mistersomov.happyandhealth.domain.entity.CellType.EMPTY
+import com.mistersomov.happyandhealth.domain.entity.CellType.ZERO
+import com.mistersomov.happyandhealth.domain.entity.GameStatus
+import com.mistersomov.happyandhealth.domain.entity.GameStatus.Continue
+import com.mistersomov.happyandhealth.domain.entity.GameStatus.Draw
+import com.mistersomov.happyandhealth.domain.entity.GameStatus.Victory
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import kotlin.test.assertEquals

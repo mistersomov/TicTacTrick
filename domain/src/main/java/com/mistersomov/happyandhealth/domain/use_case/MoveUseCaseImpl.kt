@@ -1,9 +1,9 @@
-package com.mistersomov.domain.use_case
+package com.mistersomov.happyandhealth.domain.use_case
 
-import com.mistersomov.domain.entity.Cell
-import com.mistersomov.domain.entity.CellType.CROSS
-import com.mistersomov.domain.entity.CellType.EMPTY
-import com.mistersomov.domain.entity.CellType.ZERO
+import com.mistersomov.happyandhealth.domain.entity.Cell
+import com.mistersomov.happyandhealth.domain.entity.CellType.CROSS
+import com.mistersomov.happyandhealth.domain.entity.CellType.EMPTY
+import com.mistersomov.happyandhealth.domain.entity.CellType.ZERO
 
 class MoveUseCaseImpl : MoveUseCase {
 
