@@ -1,6 +1,6 @@
 package com.mistersomov.domain.use_case
 
-import com.mistersomov.domain.model.Cell
+import com.mistersomov.domain.entity.Cell
 
 interface MoveUseCase {
     operator fun invoke(
