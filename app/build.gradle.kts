@@ -43,12 +43,10 @@ android {
     buildFeatures {
         compose = true
     }
-    tasks.withType<Test> {
-        useJUnitPlatform()
-    }
 }
 
 dependencies {
+    implementation(project(":presentation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -58,17 +56,4 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
-    testImplementation(libs.junit)
-    testImplementation(libs.junit.api)
-    testImplementation(libs.junit.params)
-
-    testRuntimeOnly(libs.junit.engine)
-
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }

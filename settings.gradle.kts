@@ -23,4 +23,5 @@ rootProject.name = "HappyAndHealth"
 include(
     ":app",
     ":domain",
+    ":presentation",
 )
