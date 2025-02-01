@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mistersomov.domain"
+    namespace = "com.mistersomov.happyandhealth.presentation"
     compileSdk = 35
 
     compileOptions {

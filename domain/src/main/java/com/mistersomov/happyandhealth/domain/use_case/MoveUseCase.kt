@@ -1,6 +1,6 @@
-package com.mistersomov.domain.use_case
+package com.mistersomov.happyandhealth.domain.use_case
 
-import com.mistersomov.domain.entity.Cell
+import com.mistersomov.happyandhealth.domain.entity.Cell
 
 interface MoveUseCase {
     operator fun invoke(

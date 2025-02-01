@@ -1,4 +1,4 @@
-package com.mistersomov.presentation.extension
+package com.mistersomov.happyandhealth.presentation.extension
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES

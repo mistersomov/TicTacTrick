@@ -1,4 +1,4 @@
-package com.mistersomov.domain.entity
+package com.mistersomov.happyandhealth.domain.entity
 
 sealed interface GameStatus {
     data class Victory(val winner: CellType) : GameStatus
