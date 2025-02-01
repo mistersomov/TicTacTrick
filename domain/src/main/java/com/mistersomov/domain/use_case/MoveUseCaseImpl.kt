@@ -1,11 +1,11 @@
 package com.mistersomov.domain.use_case
 
-import com.mistersomov.domain.model.Cell
-import com.mistersomov.domain.model.CellType.CROSS
-import com.mistersomov.domain.model.CellType.EMPTY
-import com.mistersomov.domain.model.CellType.ZERO
+import com.mistersomov.domain.entity.Cell
+import com.mistersomov.domain.entity.CellType.CROSS
+import com.mistersomov.domain.entity.CellType.EMPTY
+import com.mistersomov.domain.entity.CellType.ZERO
 
-internal class MoveUseCaseImpl : MoveUseCase {
+class MoveUseCaseImpl : MoveUseCase {
 
     override fun invoke(
         cells: List<Cell>,
@@ -15,7 +15,7 @@ internal class MoveUseCaseImpl : MoveUseCase {
         cells
             .toMutableList()
             .also {
-                val cell = cells[index]
+                val cell = it[index]
 
                 if (cell.type == EMPTY) {
                     it.removeAt(index)

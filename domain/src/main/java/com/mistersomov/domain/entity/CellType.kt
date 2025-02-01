@@ -1,4 +1,4 @@
-package com.mistersomov.domain.model
+package com.mistersomov.domain.entity
 
 enum class CellType {
     CROSS,
