@@ -3,23 +3,16 @@ package com.mistersomov.tictactrick.presentation.view
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode.Reverse
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,11 +21,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
@@ -42,42 +34,47 @@ import com.mistersomov.tictactrick.domain.entity.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
 import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
+import kotlinx.coroutines.delay
 
 @Composable
-fun FieldCell(
+fun BoardCell(
     item: Cell,
-    gridSize: Int,
+    cellSize: Dp,
     isWinningCell: Boolean,
     onClick: (id: Int) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
-    val infiniteTransition = rememberInfiniteTransition()
-    val rotationVal by infiniteTransition.animateFloat(
-        initialValue = -5f,
-        targetValue = 5f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1000, easing = LinearEasing),
-            repeatMode = Reverse,
-        ),
-    )
-    val scaleVal = remember { Animatable(1f) }
+    val scaleVal = remember { Animatable(1.5f) }
 
-    val cellSize = (120.dp / (gridSize / 3f)).coerceAtLeast(40.dp)
-    val imageSize = 0.8 * cellSize
+    val adjustedCellSize = cellSize.coerceAtLeast(24.dp)
+    val imageSize = 0.85 * adjustedCellSize
     var showImage by remember { mutableStateOf(false) }
 
     LaunchedEffect(isWinningCell) {
         if (isWinningCell) {
-            scaleVal.animateTo(1.4f, tween(500))
-            scaleVal.animateTo(1f, tween(500))
+            delay(300)
+            scaleVal.animateTo(
+                targetValue = 1f,
+                animationSpec = keyframes {
+                    durationMillis = 1000
+                    1.5f at 400 using LinearOutSlowInEasing
+                },
+            )
+        }
+    }
+    LaunchedEffect(showImage) {
+        if (showImage) {
+            scaleVal.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(50)
+            )
         }
     }
 
     Box(
         modifier = Modifier
-            .size(cellSize)
-            .border(BorderStroke(2.dp, LightGray), RoundedCornerShape(8.dp))
+            .size(adjustedCellSize)
             .scale(scaleVal.value)
             .clickable(
                 interactionSource = interactionSource,
@@ -99,9 +96,7 @@ fun FieldCell(
 
             imageRes?.let { image ->
                 Image(
-                    modifier = Modifier
-                        .size(imageSize)
-                        .rotate(rotationVal),
+                    modifier = Modifier.size(imageSize),
                     painter = painterResource(image),
                     contentDescription = description?.let { stringResource(it) },
                 )
@@ -114,33 +109,17 @@ fun FieldCell(
 @Composable
 private fun MatchCellPreview() {
     Column {
-        Row(horizontalArrangement = Arrangement.SpaceBetween) {
-            FieldCell(
-                item = Cell(id = 0, type = CROSS),
-                gridSize = 3,
-                isWinningCell = true,
-                onClick = {},
-            )
-            FieldCell(
-                item = Cell(id = 0, type = ZERO),
-                gridSize = 3,
-                isWinningCell = false,
-                onClick = {},
-            )
-        }
-        Row(horizontalArrangement = Arrangement.SpaceBetween) {
-            FieldCell(
-                item = Cell(id = 0, type = CROSS),
-                gridSize = 4,
-                isWinningCell = true,
-                onClick = {},
-            )
-            FieldCell(
-                item = Cell(id = 0, type = ZERO),
-                gridSize = 4,
-                isWinningCell = false,
-                onClick = {},
-            )
-        }
+        BoardCell(
+            item = Cell(id = 0, type = CROSS),
+            cellSize = 120.dp,
+            isWinningCell = true,
+            onClick = {},
+        )
+        BoardCell(
+            item = Cell(id = 0, type = ZERO),
+            cellSize = 120.dp,
+            isWinningCell = false,
+            onClick = {},
+        )
     }
 }

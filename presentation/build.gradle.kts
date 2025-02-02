@@ -39,6 +39,8 @@ dependencies {
     testImplementation(libs.junit.params)
     testImplementation(libs.mockk)
     testImplementation(kotlin("test"))
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.assertj.core)
 
     testRuntimeOnly(libs.junit.engine)
 
