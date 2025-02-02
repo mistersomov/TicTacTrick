@@ -32,8 +32,8 @@ class GetGameStatusUseCaseImpl : GetGameStatusUseCase {
         }
         return when {
             cells[4].type == cellType
-                    && (cells[0].type == cellType && cells[8].type == cellType)
-                    || (cells[2].type == cellType && cells[6].type == cellType) -> Victory(winner = cellType)
+                    && ((cells[0].type == cellType && cells[8].type == cellType)
+                            || (cells[2].type == cellType && cells[6].type == cellType)) -> Victory(winner = cellType)
             !cells.any { it.type == EMPTY } -> Draw
             else -> Continue
         }

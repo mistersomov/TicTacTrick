@@ -290,6 +290,21 @@ internal class GetGameStatusUseCaseImplTest {
             isCrossMove = true,
             expected = Continue,
         ),
+        CONTINUE_DIAGONAL(
+            cells = listOf(
+                Cell(id = 0, type = CROSS),
+                Cell(id = 1, type = EMPTY),
+                Cell(id = 2, type = CROSS),
+                Cell(id = 3, type = ZERO),
+                Cell(id = 4, type = ZERO),
+                Cell(id = 5, type = EMPTY),
+                Cell(id = 6, type = CROSS),
+                Cell(id = 7, type = EMPTY),
+                Cell(id = 8, type = EMPTY),
+            ),
+            isCrossMove = true,
+            expected = Continue,
+        ),
     }
 
     @ParameterizedTest
