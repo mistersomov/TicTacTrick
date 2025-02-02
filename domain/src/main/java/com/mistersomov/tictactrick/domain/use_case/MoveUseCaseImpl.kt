@@ -16,6 +16,12 @@ class MoveUseCaseImpl : MoveUseCase {
 
         val cellType = if (isCrossMove) CROSS else  ZERO
 
-        return cells.mapIndexed { i, cell -> if (i == index) cell.copy(type = cellType) else cell }
+        return cells.mapIndexed { i, cell ->
+            if (i == index) {
+                cell.copy(type = cellType, isRevealed = true)
+            } else {
+                cell
+            }
+        }
     }
 }
