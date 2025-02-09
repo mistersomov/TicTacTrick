@@ -1,13 +1,13 @@
-package com.mistersomov.happyandhealth.domain.use_case
+package com.mistersomov.tictactrick.domain.use_case
 
-import com.mistersomov.happyandhealth.domain.entity.Cell
-import com.mistersomov.happyandhealth.domain.entity.CellType.CROSS
-import com.mistersomov.happyandhealth.domain.entity.CellType.EMPTY
-import com.mistersomov.happyandhealth.domain.entity.CellType.ZERO
-import com.mistersomov.happyandhealth.domain.entity.GameStatus
-import com.mistersomov.happyandhealth.domain.entity.GameStatus.Continue
-import com.mistersomov.happyandhealth.domain.entity.GameStatus.Draw
-import com.mistersomov.happyandhealth.domain.entity.GameStatus.Victory
+import com.mistersomov.tictactrick.domain.entity.Cell
+import com.mistersomov.tictactrick.domain.entity.CellType.CROSS
+import com.mistersomov.tictactrick.domain.entity.CellType.EMPTY
+import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
+import com.mistersomov.tictactrick.domain.entity.GameStatus
+import com.mistersomov.tictactrick.domain.entity.GameStatus.Continue
+import com.mistersomov.tictactrick.domain.entity.GameStatus.Draw
+import com.mistersomov.tictactrick.domain.entity.GameStatus.Victory
 
 class GetGameStatusUseCaseImpl : GetGameStatusUseCase {
 

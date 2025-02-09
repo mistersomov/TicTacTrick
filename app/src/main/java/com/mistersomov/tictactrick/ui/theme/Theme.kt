@@ -1,6 +1,5 @@
-package com.mistersomov.happyandhealth.ui.theme
+package com.mistersomov.tictactrick.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

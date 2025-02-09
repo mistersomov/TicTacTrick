@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.mistersomov.happyandhealth"
+    namespace = "com.mistersomov.tictactrick"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.mistersomov.happyandhealth"
+        applicationId = "com.mistersomov.tictactrick"
         minSdk = 28
         targetSdk = 35
         versionCode = 1

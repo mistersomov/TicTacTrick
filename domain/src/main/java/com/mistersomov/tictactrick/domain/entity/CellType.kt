@@ -1,4 +1,4 @@
-package com.mistersomov.happyandhealth.domain.entity
+package com.mistersomov.tictactrick.domain.entity
 
 enum class CellType {
     CROSS,

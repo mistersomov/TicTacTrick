@@ -1,4 +1,4 @@
-package com.mistersomov.happyandhealth
+package com.mistersomov.tictactrick
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,9 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.mistersomov.happyandhealth.ui.theme.HappyAndHealthTheme
+import com.mistersomov.tictactrick.ui.theme.HappyAndHealthTheme
 
-class HappyAndHealthActivity : ComponentActivity() {
+class TicTacTrickActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

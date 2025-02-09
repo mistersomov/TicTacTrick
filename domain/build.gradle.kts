@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mistersomov.happyandhealth.domain"
+    namespace = "com.mistersomov.tictactrick.domain"
     compileSdk = 35
 
     compileOptions {

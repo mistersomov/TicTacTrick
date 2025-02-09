@@ -10,12 +10,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HappyAndHealth"
+        android:theme="@style/Theme.TicTacTrick"
         tools:targetApi="31">
         <activity
-            android:name=".HappyAndHealthActivity"
+            android:name=".TicTacTrickActivity"
             android:exported="true"
-            android:theme="@style/Theme.HappyAndHealth">
+            android:theme="@style/Theme.TicTacTrick">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
