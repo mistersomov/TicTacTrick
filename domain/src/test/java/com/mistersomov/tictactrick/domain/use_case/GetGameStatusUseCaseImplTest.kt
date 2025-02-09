@@ -4,6 +4,7 @@ import com.mistersomov.tictactrick.domain.entity.Cell
 import com.mistersomov.tictactrick.domain.entity.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
+import com.mistersomov.tictactrick.domain.entity.FieldMode
 import com.mistersomov.tictactrick.domain.entity.GameStatus
 import com.mistersomov.tictactrick.domain.entity.GameStatus.Continue
 import com.mistersomov.tictactrick.domain.entity.GameStatus.Draw
@@ -311,7 +312,40 @@ internal class GetGameStatusUseCaseImplTest {
     @EnumSource(Status::class)
     fun invoke(item: Status) {
         // action
-        val action = getGameStatusUseCase(cells = item.cells, isCrossMove = item.isCrossMove)
+        val action = getGameStatusUseCase(
+            cells = item.cells,
+            fieldMode = FieldMode.THREE,
+            isCrossMove = item.isCrossMove
+        )
+
+        // assert
+        assertEquals(item.expected, action)
+    }
+
+    enum class Combination(
+        val size: Int,
+        val expected: List<List<Int>>,
+    ) {
+        THREE(
+            size = 3,
+            expected = listOf(
+                listOf(0, 1, 2),
+                listOf(0, 3, 6),
+                listOf(3, 4, 5),
+                listOf(1, 4, 7),
+                listOf(6, 7, 8),
+                listOf(2, 5, 8),
+                listOf(0, 4, 8),
+                listOf(2, 4, 6),
+            ),
+        ),
+    }
+
+    @ParameterizedTest
+    @EnumSource(Combination::class)
+    fun generateWinningCombinations(item: Combination) {
+        // action
+        val action = getGameStatusUseCase.generateWinningCombinations(item.size)
 
         // assert
         assertEquals(item.expected, action)

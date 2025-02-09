@@ -1,9 +1,11 @@
 package com.mistersomov.tictactrick.domain.use_case
 
+import androidx.annotation.VisibleForTesting
 import com.mistersomov.tictactrick.domain.entity.Cell
 import com.mistersomov.tictactrick.domain.entity.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
+import com.mistersomov.tictactrick.domain.entity.FieldMode
 import com.mistersomov.tictactrick.domain.entity.GameStatus
 import com.mistersomov.tictactrick.domain.entity.GameStatus.Continue
 import com.mistersomov.tictactrick.domain.entity.GameStatus.Draw
@@ -11,31 +13,35 @@ import com.mistersomov.tictactrick.domain.entity.GameStatus.Victory
 
 class GetGameStatusUseCaseImpl : GetGameStatusUseCase {
 
-    override operator fun invoke(cells: List<Cell>, isCrossMove: Boolean): GameStatus {
+    override operator fun invoke(
+        cells: List<Cell>,
+        fieldMode: FieldMode,
+        isCrossMove: Boolean,
+    ): GameStatus {
         val cellType = if (isCrossMove) CROSS else ZERO
+        val combinations = generateWinningCombinations(fieldMode.value)
+        val isWinning = combinations.any { combination ->
+            combination.all { index -> cells[index].type == cellType }
+        }
 
-        for (i in 0..6 step 3) {
-            if (cells[i].type == cellType
-                && cells[i + 1].type == cellType
-                && cells[i + 2].type == cellType
-            ) {
-                return Victory(winner = cellType)
-            }
-        }
-        for (i in 0..2 step 1) {
-            if (cells[i].type == cellType
-                && cells[i + 3].type == cellType
-                && cells[i + 6].type == cellType
-            ) {
-                return Victory(winner = cellType)
-            }
-        }
         return when {
-            cells[4].type == cellType
-                    && ((cells[0].type == cellType && cells[8].type == cellType)
-                            || (cells[2].type == cellType && cells[6].type == cellType)) -> Victory(winner = cellType)
-            !cells.any { it.type == EMPTY } -> Draw
+            isWinning -> Victory(cellType)
+            cells.none { it.type == EMPTY } -> Draw
             else -> Continue
         }
+    }
+
+    @VisibleForTesting
+    fun generateWinningCombinations(size: Int): List<List<Int>> {
+        val combinations = mutableListOf<List<Int>>()
+
+        for (i in 0 until size) {
+            combinations.add(List(size) { horizontal -> i * size + horizontal })
+            combinations.add(List(size) { vertical -> vertical * size + i })
+        }
+        combinations.add(List(size) { i -> i * (size + 1) })
+        combinations.add(List(size) { i -> (i + 1) * (size - 1) })
+
+        return combinations
     }
 }
