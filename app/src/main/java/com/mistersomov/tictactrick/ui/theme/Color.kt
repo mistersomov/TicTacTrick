@@ -1,4 +1,4 @@
-package com.mistersomov.happyandhealth.ui.theme
+package com.mistersomov.tictactrick.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

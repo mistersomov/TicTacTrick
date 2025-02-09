@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "HappyAndHealth"
+rootProject.name = "TicTacTrick"
 include(
     ":app",
     ":domain",

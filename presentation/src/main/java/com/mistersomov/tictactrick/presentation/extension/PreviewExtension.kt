@@ -1,4 +1,4 @@
-package com.mistersomov.happyandhealth.presentation.extension
+package com.mistersomov.tictactrick.presentation.extension
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
