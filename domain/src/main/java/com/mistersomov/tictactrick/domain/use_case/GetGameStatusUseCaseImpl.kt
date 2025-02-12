@@ -20,12 +20,12 @@ class GetGameStatusUseCaseImpl : GetGameStatusUseCase {
     ): GameStatus {
         val cellType = if (isCrossMove) CROSS else ZERO
         val combinations = generateWinningCombinations(fieldMode.value)
-        val isWinning = combinations.any { combination ->
+        val winningCombination = combinations.firstOrNull { combination ->
             combination.all { index -> cells[index].type == cellType }
         }
 
         return when {
-            isWinning -> Victory(cellType)
+            winningCombination != null -> Victory(cellType, winningCombination)
             cells.none { it.type == EMPTY } -> Draw
             else -> Continue
         }

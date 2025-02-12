@@ -34,7 +34,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = EMPTY),
             ),
             isCrossMove = true,
-            expected = Victory(winner = CROSS),
+            expected = Victory(
+                winner = CROSS,
+                combination = listOf(0, 1, 2),
+            ),
         ),
         WIN_BY_SECOND_ROW_CROSS(
             cells = listOf(
@@ -49,7 +52,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = EMPTY),
             ),
             isCrossMove = true,
-            expected = Victory(winner = CROSS),
+            expected = Victory(
+                winner = CROSS,
+                combination = listOf(3, 4, 5),
+            ),
         ),
         WIN_BY_THIRD_ROW_CROSS(
             cells = listOf(
@@ -64,7 +70,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = CROSS),
             ),
             isCrossMove = true,
-            expected = Victory(winner = CROSS),
+            expected = Victory(
+                winner = CROSS,
+                combination = listOf(6, 7, 8),
+            ),
         ),
         WIN_BY_FIRST_COLUMN_CROSS(
             cells = listOf(
@@ -79,7 +88,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = EMPTY),
             ),
             isCrossMove = true,
-            expected = Victory(winner = CROSS),
+            expected = Victory(
+                winner = CROSS,
+                combination = listOf(0, 3, 6),
+            ),
         ),
         WIN_BY_SECOND_COLUMN_CROSS(
             cells = listOf(
@@ -94,7 +106,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = EMPTY),
             ),
             isCrossMove = true,
-            expected = Victory(winner = CROSS),
+            expected = Victory(
+                winner = CROSS,
+                combination = listOf(1, 4, 7),
+            ),
         ),
         WIN_BY_THIRD_COLUMN_CROSS(
             cells = listOf(
@@ -109,7 +124,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = CROSS),
             ),
             isCrossMove = true,
-            expected = Victory(winner = CROSS),
+            expected = Victory(
+                winner = CROSS,
+                combination = listOf(2, 5, 8),
+            ),
         ),
         WIN_BY_MAIN_DIAGONAL_CROSS(
             cells = listOf(
@@ -124,7 +142,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = CROSS),
             ),
             isCrossMove = true,
-            expected = Victory(winner = CROSS),
+            expected = Victory(
+                winner = CROSS,
+                combination = listOf(0, 4, 8),
+            ),
         ),
         WIN_BY_SIDE_DIAGONAL_CROSS(
             cells = listOf(
@@ -139,7 +160,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = EMPTY),
             ),
             isCrossMove = true,
-            expected = Victory(winner = CROSS),
+            expected = Victory(
+                winner = CROSS,
+                combination = listOf(2, 4, 6),
+            ),
         ),
         WIN_BY_FIRST_ROW_ZERO(
             cells = listOf(
@@ -154,7 +178,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = EMPTY),
             ),
             isCrossMove = false,
-            expected = Victory(winner = ZERO),
+            expected = Victory(
+                winner = ZERO,
+                combination = listOf(0, 1, 2),
+            ),
         ),
         WIN_BY_SECOND_ROW_ZERO(
             cells = listOf(
@@ -169,7 +196,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = EMPTY),
             ),
             isCrossMove = false,
-            expected = Victory(winner = ZERO),
+            expected = Victory(
+                winner = ZERO,
+                combination = listOf(3, 4, 5),
+            ),
         ),
         WIN_BY_THIRD_ROW_ZERO(
             cells = listOf(
@@ -184,7 +214,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = ZERO),
             ),
             isCrossMove = false,
-            expected = Victory(winner = ZERO),
+            expected = Victory(
+                winner = ZERO,
+                combination = listOf(6, 7, 8),
+            ),
         ),
         WIN_BY_FIRST_COLUMN_ZERO(
             cells = listOf(
@@ -199,7 +232,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = EMPTY),
             ),
             isCrossMove = false,
-            expected = Victory(winner = ZERO),
+            expected = Victory(
+                winner = ZERO,
+                combination = listOf(0, 3, 6),
+            ),
         ),
         WIN_BY_SECOND_COLUMN_ZERO(
             cells = listOf(
@@ -214,7 +250,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = EMPTY),
             ),
             isCrossMove = false,
-            expected = Victory(winner = ZERO),
+            expected = Victory(
+                winner = ZERO,
+                combination = listOf(1, 4, 7),
+            ),
         ),
         WIN_BY_THIRD_COLUMN_ZERO(
             cells = listOf(
@@ -229,7 +268,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = ZERO),
             ),
             isCrossMove = false,
-            expected = Victory(winner = ZERO),
+            expected = Victory(
+                winner = ZERO,
+                combination = listOf(2, 5, 8),
+            ),
         ),
         WIN_BY_MAIN_DIAGONAL_ZERO(
             cells = listOf(
@@ -244,7 +286,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = ZERO),
             ),
             isCrossMove = false,
-            expected = Victory(winner = ZERO),
+            expected = Victory(
+                winner = ZERO,
+                combination = listOf(0, 4, 8),
+            ),
         ),
         WIN_BY_SIDE_DIAGONAL_ZERO(
             cells = listOf(
@@ -259,7 +304,10 @@ internal class GetGameStatusUseCaseImplTest {
                 Cell(id = 8, type = EMPTY),
             ),
             isCrossMove = false,
-            expected = Victory(winner = ZERO),
+            expected = Victory(
+                winner = ZERO,
+                combination = listOf(2, 4, 6),
+            ),
         ),
         DRAW(
             cells = listOf(
