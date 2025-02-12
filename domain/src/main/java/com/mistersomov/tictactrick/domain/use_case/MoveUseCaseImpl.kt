@@ -7,7 +7,7 @@ import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
 
 class MoveUseCaseImpl : MoveUseCase {
 
-    override fun invoke(
+    override operator fun invoke(
         cells: List<Cell>,
         index: Int,
         isCrossMove: Boolean,
