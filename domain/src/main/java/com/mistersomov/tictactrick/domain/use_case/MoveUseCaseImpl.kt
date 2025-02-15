@@ -11,15 +11,11 @@ class MoveUseCaseImpl : MoveUseCase {
         cells: List<Cell>,
         index: Int,
         isCrossMove: Boolean,
-    ): List<Cell> =
-        cells
-            .toMutableList()
-            .also {
-                val cell = it[index]
+    ): List<Cell> {
+        if (cells[index].type != EMPTY) return cells
 
-                if (cell.type == EMPTY) {
-                    it.removeAt(index)
-                    it.add(index, cell.copy(type = if (isCrossMove) CROSS else ZERO))
-                }
-            }
+        val cellType = if (isCrossMove) CROSS else  ZERO
+
+        return cells.mapIndexed { i, cell -> if (i == index) cell.copy(type = cellType) else cell }
+    }
 }
