@@ -2,4 +2,7 @@
 <resources>
     <string name="cross">Cross</string>
     <string name="zero">Zero</string>
+
+    <!-- Game Dialog -->
+    <string name="reset">Reset</string>
 </resources>
