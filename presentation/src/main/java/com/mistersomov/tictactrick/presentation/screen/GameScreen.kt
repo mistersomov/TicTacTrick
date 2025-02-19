@@ -21,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -72,12 +71,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel(factory = GameViewModel.Fact
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(
-                    brush = Brush.verticalGradient(
-                        0f to Color.White,
-                        .4f to Color.DarkGray
-                    )
-                )
+                .background(color = Color.White)
         ) {
             Row(
                 modifier = Modifier
