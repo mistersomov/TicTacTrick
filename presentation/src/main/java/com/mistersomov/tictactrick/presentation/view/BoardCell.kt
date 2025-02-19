@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -41,10 +40,10 @@ fun BoardCell(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
-    val scaleVal = remember { Animatable(1.5f) }
+    val scaleVal = remember { Animatable(1f) }
 
     val adjustedCellSize = cellSize.coerceAtLeast(24.dp)
-    val imageSize = 0.85 * adjustedCellSize
+    val imageSize = 0.6 * adjustedCellSize
 
     LaunchedEffect(isWinningCell) {
         if (isWinningCell) {
@@ -62,10 +61,13 @@ fun BoardCell(
         if (item.isRevealed) {
             scaleVal.animateTo(
                 targetValue = 1f,
-                animationSpec = tween(50)
+                animationSpec = keyframes {
+                    durationMillis = 100
+                    1.5f at 20 using LinearOutSlowInEasing
+                }
             )
         } else {
-            scaleVal.snapTo(1.5f)
+            scaleVal.snapTo(1f)
         }
     }
 
