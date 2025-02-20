@@ -1,13 +1,13 @@
 package com.mistersomov.tictactrick.domain.use_case
 
-import com.mistersomov.tictactrick.domain.entity.Cell
-import com.mistersomov.tictactrick.domain.entity.FieldMode
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
+import com.mistersomov.tictactrick.domain.entity.board.BoardMode
+import com.mistersomov.tictactrick.domain.entity.board.Cell
 
 interface GetMatchStatusUseCase {
     operator fun invoke(
         cells: List<Cell>,
-        fieldMode: FieldMode,
+        boardMode: BoardMode,
         isCrossMove: Boolean,
     ): MatchStatus
 }

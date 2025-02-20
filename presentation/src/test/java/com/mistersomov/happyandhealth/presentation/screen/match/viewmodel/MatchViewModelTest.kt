@@ -1,11 +1,11 @@
 package com.mistersomov.happyandhealth.presentation.screen.match.viewmodel
 
 import com.mistersomov.happyandhealth.presentation.TestDispatcherExtension
-import com.mistersomov.tictactrick.domain.entity.Cell
-import com.mistersomov.tictactrick.domain.entity.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Draw
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Victory
+import com.mistersomov.tictactrick.domain.entity.board.Cell
+import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
 import com.mistersomov.tictactrick.domain.use_case.GetMatchStatusUseCase
 import com.mistersomov.tictactrick.domain.use_case.MoveUseCase
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Move
@@ -85,7 +85,7 @@ internal class MatchViewModelTest {
             } returns listOf(mockk())
             every { getMatchStatusUseCase.invoke(
                 cells = any(),
-                fieldMode = any(),
+                boardMode = any(),
                 isCrossMove = any(),
             ) } returns Victory(winner = CROSS, combination = listOf(1, 2, 3))
 
@@ -102,7 +102,7 @@ internal class MatchViewModelTest {
                 .isEqualTo(expected)
             verify {
                 moveUseCase.invoke(cells = any(), index = 0, isCrossMove = any())
-                getMatchStatusUseCase.invoke(cells = any(), fieldMode = any(), isCrossMove = any())
+                getMatchStatusUseCase.invoke(cells = any(), boardMode = any(), isCrossMove = any())
             }
         }
 
@@ -120,7 +120,7 @@ internal class MatchViewModelTest {
             } returns listOf(mockk())
             every { getMatchStatusUseCase.invoke(
                 cells = any(),
-                fieldMode = any(),
+                boardMode = any(),
                 isCrossMove = any(),
             ) } returns Draw
 
@@ -137,7 +137,7 @@ internal class MatchViewModelTest {
                 .isEqualTo(expected)
             verify {
                 moveUseCase.invoke(cells = any(), index = 0, isCrossMove = any())
-                getMatchStatusUseCase.invoke(cells = any(), fieldMode = any(), isCrossMove = any())
+                getMatchStatusUseCase.invoke(cells = any(), boardMode = any(), isCrossMove = any())
             }
         }
 
@@ -155,7 +155,7 @@ internal class MatchViewModelTest {
             } returns listOf(mockk())
             every { getMatchStatusUseCase.invoke(
                 cells = any(),
-                fieldMode = any(),
+                boardMode = any(),
                 isCrossMove = any(),
             ) } returns Continue
 
@@ -172,7 +172,7 @@ internal class MatchViewModelTest {
                 .isEqualTo(expected)
             verify {
                 moveUseCase.invoke(cells = any(), index = 0, isCrossMove = any())
-                getMatchStatusUseCase.invoke(cells = any(), fieldMode = any(), isCrossMove = any())
+                getMatchStatusUseCase.invoke(cells = any(), boardMode = any(), isCrossMove = any())
             }
         }
     }

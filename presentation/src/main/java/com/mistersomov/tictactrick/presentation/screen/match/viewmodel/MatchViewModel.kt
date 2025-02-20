@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.mistersomov.tictactrick.domain.entity.Cell
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Draw
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Victory
+import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.use_case.GetMatchStatusUseCase
 import com.mistersomov.tictactrick.domain.use_case.GetMatchStatusUseCaseImpl
 import com.mistersomov.tictactrick.domain.use_case.MoveUseCase
@@ -81,7 +81,7 @@ class MatchViewModel(
     }
 
     private fun startGame() {
-        val size = viewState.value.fieldMode.value * viewState.value.fieldMode.value
+        val size = viewState.value.boardMode.value * viewState.value.boardMode.value
         setState { copy(cells = List(size) { Cell(id = it) }) }
     }
 
@@ -94,7 +94,7 @@ class MatchViewModel(
             )
             val matchStatus: MatchStatus = getMatchStatusUseCase(
                 cells = updatedCells,
-                fieldMode = fieldMode,
+                boardMode = boardMode,
                 isCrossMove = isCrossMove,
             )
 
