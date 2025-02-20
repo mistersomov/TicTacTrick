@@ -1,5 +1,7 @@
 package com.mistersomov.tictactrick.domain.entity
 
+import com.mistersomov.tictactrick.domain.entity.board.CellType
+
 sealed interface MatchStatus {
     data class Victory(
         val winner: CellType,

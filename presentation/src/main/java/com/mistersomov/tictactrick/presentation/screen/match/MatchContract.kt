@@ -1,10 +1,10 @@
 package com.mistersomov.tictactrick.presentation.screen.match
 
-import com.mistersomov.tictactrick.domain.entity.Cell
-import com.mistersomov.tictactrick.domain.entity.FieldMode
-import com.mistersomov.tictactrick.domain.entity.FieldMode.THREE
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
+import com.mistersomov.tictactrick.domain.entity.board.BoardMode
+import com.mistersomov.tictactrick.domain.entity.board.BoardMode.THREE
+import com.mistersomov.tictactrick.domain.entity.board.Cell
 
 interface MatchContract {
 
@@ -16,7 +16,7 @@ interface MatchContract {
 
     data class State(
         val cells: List<Cell> = emptyList(),
-        val fieldMode: FieldMode = THREE,
+        val boardMode: BoardMode = THREE,
         val matchStatus: MatchStatus = Continue,
         val isCrossMove: Boolean = true,
         val gameOver: Boolean = false,

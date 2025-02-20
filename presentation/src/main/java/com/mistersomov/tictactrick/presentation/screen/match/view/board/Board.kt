@@ -18,11 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
-import com.mistersomov.tictactrick.domain.entity.Cell
-import com.mistersomov.tictactrick.domain.entity.CellType.CROSS
-import com.mistersomov.tictactrick.domain.entity.CellType.EMPTY
-import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Victory
+import com.mistersomov.tictactrick.domain.entity.board.Cell
+import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
+import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
+import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Move
@@ -39,7 +39,7 @@ internal fun Board(
             .padding(16.dp),
         contentAlignment = Alignment.Center,
     ) {
-        val gridSize = viewState.fieldMode.value
+        val gridSize = viewState.boardMode.value
         val boardSize = maxWidth.coerceAtMost(maxHeight) - 16.dp
         val cellSize = boardSize / gridSize
 

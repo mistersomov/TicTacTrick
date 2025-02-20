@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import com.mistersomov.tictactrick.domain.entity.Cell
-import com.mistersomov.tictactrick.domain.entity.CellType.CROSS
-import com.mistersomov.tictactrick.domain.entity.CellType.EMPTY
-import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
+import com.mistersomov.tictactrick.domain.entity.board.Cell
+import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
+import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
+import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
 import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
 import kotlinx.coroutines.delay

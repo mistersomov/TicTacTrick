@@ -1,9 +1,9 @@
 package com.mistersomov.tictactrick.domain.use_case
 
-import com.mistersomov.tictactrick.domain.entity.Cell
-import com.mistersomov.tictactrick.domain.entity.CellType.CROSS
-import com.mistersomov.tictactrick.domain.entity.CellType.EMPTY
-import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
+import com.mistersomov.tictactrick.domain.entity.board.Cell
+import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
+import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
+import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import kotlin.test.assertEquals
