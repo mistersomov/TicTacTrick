@@ -1,11 +1,11 @@
 package com.mistersomov.tictactrick.domain.entity
 
-sealed interface GameStatus {
+sealed interface MatchStatus {
     data class Victory(
         val winner: CellType,
         val combination: List<Int>,
-    ) : GameStatus
+    ) : MatchStatus
 
-    data object Draw : GameStatus
-    data object Continue : GameStatus
+    data object Draw : MatchStatus
+    data object Continue : MatchStatus
 }

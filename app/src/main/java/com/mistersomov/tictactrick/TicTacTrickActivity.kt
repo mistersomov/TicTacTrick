@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.mistersomov.tictactrick.presentation.screen.GameScreen
+import com.mistersomov.tictactrick.presentation.screen.match.MatchScreen
 import com.mistersomov.tictactrick.ui.theme.HappyAndHealthTheme
 
 class TicTacTrickActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class TicTacTrickActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HappyAndHealthTheme {
-                GameScreen()
+                MatchScreen()
             }
         }
     }

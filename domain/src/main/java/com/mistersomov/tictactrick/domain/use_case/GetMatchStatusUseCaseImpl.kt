@@ -6,18 +6,18 @@ import com.mistersomov.tictactrick.domain.entity.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
 import com.mistersomov.tictactrick.domain.entity.FieldMode
-import com.mistersomov.tictactrick.domain.entity.GameStatus
-import com.mistersomov.tictactrick.domain.entity.GameStatus.Continue
-import com.mistersomov.tictactrick.domain.entity.GameStatus.Draw
-import com.mistersomov.tictactrick.domain.entity.GameStatus.Victory
+import com.mistersomov.tictactrick.domain.entity.MatchStatus
+import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
+import com.mistersomov.tictactrick.domain.entity.MatchStatus.Draw
+import com.mistersomov.tictactrick.domain.entity.MatchStatus.Victory
 
-class GetGameStatusUseCaseImpl : GetGameStatusUseCase {
+class GetMatchStatusUseCaseImpl : GetMatchStatusUseCase {
 
     override operator fun invoke(
         cells: List<Cell>,
         fieldMode: FieldMode,
         isCrossMove: Boolean,
-    ): GameStatus {
+    ): MatchStatus {
         val cellType = if (isCrossMove) CROSS else ZERO
         val combinations = generateWinningCombinations(fieldMode.value)
         val winningCombination = combinations.firstOrNull { combination ->

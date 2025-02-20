@@ -1,4 +1,4 @@
-package com.mistersomov.tictactrick.presentation.screen
+package com.mistersomov.tictactrick.presentation.screen.match
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,19 +26,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mistersomov.tictactrick.domain.entity.GameStatus
+import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.presentation.R
+import com.mistersomov.tictactrick.presentation.common.GameDialog
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
-import com.mistersomov.tictactrick.presentation.view.Board
-import com.mistersomov.tictactrick.presentation.view.GameContract.Effect.ShowDialog
-import com.mistersomov.tictactrick.presentation.view.GameContract.Intent.Reset
-import com.mistersomov.tictactrick.presentation.view.GameContract.Intent.StartGame
-import com.mistersomov.tictactrick.presentation.view.GameDialog
-import com.mistersomov.tictactrick.presentation.viewmodel.GameViewModel
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowDialog
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Reset
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.StartGame
+import com.mistersomov.tictactrick.presentation.screen.match.view.board.Board
+import com.mistersomov.tictactrick.presentation.screen.match.viewmodel.MatchViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun GameScreen(viewModel: GameViewModel = viewModel(factory = GameViewModel.Factory)) {
+fun MatchScreen(viewModel: MatchViewModel = viewModel(factory = MatchViewModel.Factory)) {
     val viewState by viewModel.viewState.collectAsState()
     val sendIntent by remember { mutableStateOf(viewModel::sendIntent) }
 
@@ -58,7 +58,7 @@ fun GameScreen(viewModel: GameViewModel = viewModel(factory = GameViewModel.Fact
 
     if (showDialog) {
         GameDialog(
-            title = if (viewState.gameStatus is GameStatus.Victory) "Victory" else "Draw",
+            title = if (viewState.matchStatus is MatchStatus.Victory) "Victory" else "Draw",
             onRestart = {
                 sendIntent(Reset)
                 showDialog = false
@@ -113,5 +113,5 @@ fun GameScreen(viewModel: GameViewModel = viewModel(factory = GameViewModel.Fact
 @MultiPreview
 @Composable
 private fun MatchScreenPreview() {
-    GameScreen()
+    MatchScreen()
 }

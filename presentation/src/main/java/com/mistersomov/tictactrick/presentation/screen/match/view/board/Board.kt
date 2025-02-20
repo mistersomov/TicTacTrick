@@ -1,10 +1,10 @@
-package com.mistersomov.tictactrick.presentation.view
+package com.mistersomov.tictactrick.presentation.screen.match.view.board
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,11 +22,11 @@ import com.mistersomov.tictactrick.domain.entity.Cell
 import com.mistersomov.tictactrick.domain.entity.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
-import com.mistersomov.tictactrick.domain.entity.GameStatus.Victory
+import com.mistersomov.tictactrick.domain.entity.MatchStatus.Victory
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
-import com.mistersomov.tictactrick.presentation.view.GameContract.Intent
-import com.mistersomov.tictactrick.presentation.view.GameContract.Intent.Move
-import com.mistersomov.tictactrick.presentation.view.GameContract.State
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Move
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.State
 
 @Composable
 internal fun Board(
@@ -35,7 +35,7 @@ internal fun Board(
 ) {
     BoxWithConstraints(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(16.dp),
         contentAlignment = Alignment.Center,
     ) {
@@ -61,8 +61,8 @@ internal fun Board(
                         BoardCell(
                             item = viewState.cells[index],
                             cellSize = cellSize,
-                            isWinningCell = if (viewState.gameStatus is Victory) {
-                                index in viewState.gameStatus.combination
+                            isWinningCell = if (viewState.matchStatus is Victory) {
+                                index in viewState.matchStatus.combination
                             } else {
                                 false
                             },

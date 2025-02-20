@@ -5,21 +5,21 @@ import com.mistersomov.tictactrick.domain.entity.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.CellType.ZERO
 import com.mistersomov.tictactrick.domain.entity.FieldMode
-import com.mistersomov.tictactrick.domain.entity.GameStatus
-import com.mistersomov.tictactrick.domain.entity.GameStatus.Continue
-import com.mistersomov.tictactrick.domain.entity.GameStatus.Draw
-import com.mistersomov.tictactrick.domain.entity.GameStatus.Victory
+import com.mistersomov.tictactrick.domain.entity.MatchStatus
+import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
+import com.mistersomov.tictactrick.domain.entity.MatchStatus.Draw
+import com.mistersomov.tictactrick.domain.entity.MatchStatus.Victory
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import kotlin.test.assertEquals
 
-internal class GetGameStatusUseCaseImplTest {
-    private val getGameStatusUseCase = GetGameStatusUseCaseImpl()
+internal class GetMatchStatusUseCaseImplTest {
+    private val getMatchStatusUseCase = GetMatchStatusUseCaseImpl()
 
     enum class Status(
         val cells: List<Cell>,
         val isCrossMove: Boolean,
-        val expected: GameStatus,
+        val expected: MatchStatus,
     ) {
         WIN_BY_FIRST_ROW_CROSS(
             cells = listOf(
@@ -360,7 +360,7 @@ internal class GetGameStatusUseCaseImplTest {
     @EnumSource(Status::class)
     fun invoke(item: Status) {
         // action
-        val action = getGameStatusUseCase(
+        val action = getMatchStatusUseCase(
             cells = item.cells,
             fieldMode = FieldMode.THREE,
             isCrossMove = item.isCrossMove
@@ -393,7 +393,7 @@ internal class GetGameStatusUseCaseImplTest {
     @EnumSource(Combination::class)
     fun generateWinningCombinations(item: Combination) {
         // action
-        val action = getGameStatusUseCase.generateWinningCombinations(item.size)
+        val action = getMatchStatusUseCase.generateWinningCombinations(item.size)
 
         // assert
         assertEquals(item.expected, action)

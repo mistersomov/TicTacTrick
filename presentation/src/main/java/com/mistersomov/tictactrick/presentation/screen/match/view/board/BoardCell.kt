@@ -1,4 +1,4 @@
-package com.mistersomov.tictactrick.presentation.view
+package com.mistersomov.tictactrick.presentation.screen.match.view.board
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
