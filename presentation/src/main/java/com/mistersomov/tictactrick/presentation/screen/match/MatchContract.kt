@@ -1,12 +1,12 @@
-package com.mistersomov.tictactrick.presentation.view
+package com.mistersomov.tictactrick.presentation.screen.match
 
 import com.mistersomov.tictactrick.domain.entity.Cell
 import com.mistersomov.tictactrick.domain.entity.FieldMode
 import com.mistersomov.tictactrick.domain.entity.FieldMode.THREE
-import com.mistersomov.tictactrick.domain.entity.GameStatus
-import com.mistersomov.tictactrick.domain.entity.GameStatus.Continue
+import com.mistersomov.tictactrick.domain.entity.MatchStatus
+import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
 
-interface GameContract {
+interface MatchContract {
 
     sealed interface Intent {
         data object StartGame : Intent
@@ -17,7 +17,7 @@ interface GameContract {
     data class State(
         val cells: List<Cell> = emptyList(),
         val fieldMode: FieldMode = THREE,
-        val gameStatus: GameStatus = Continue,
+        val matchStatus: MatchStatus = Continue,
         val isCrossMove: Boolean = true,
         val gameOver: Boolean = false,
     )

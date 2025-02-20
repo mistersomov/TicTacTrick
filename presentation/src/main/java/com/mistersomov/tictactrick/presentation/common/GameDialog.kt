@@ -1,4 +1,4 @@
-package com.mistersomov.tictactrick.presentation.view
+package com.mistersomov.tictactrick.presentation.common
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
