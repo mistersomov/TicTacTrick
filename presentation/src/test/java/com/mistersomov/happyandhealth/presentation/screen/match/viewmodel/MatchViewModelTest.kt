@@ -86,7 +86,6 @@ internal class MatchViewModelTest {
             every { getMatchStatusUseCase.invoke(
                 cells = any(),
                 boardMode = any(),
-                isCrossMove = any(),
             ) } returns Victory(winner = CROSS, combination = listOf(1, 2, 3))
 
             // action
@@ -102,7 +101,7 @@ internal class MatchViewModelTest {
                 .isEqualTo(expected)
             verify {
                 moveUseCase.invoke(cells = any(), index = 0, isCrossMove = any())
-                getMatchStatusUseCase.invoke(cells = any(), boardMode = any(), isCrossMove = any())
+                getMatchStatusUseCase.invoke(cells = any(), boardMode = any())
             }
         }
 
@@ -121,7 +120,6 @@ internal class MatchViewModelTest {
             every { getMatchStatusUseCase.invoke(
                 cells = any(),
                 boardMode = any(),
-                isCrossMove = any(),
             ) } returns Draw
 
             // action
@@ -137,7 +135,7 @@ internal class MatchViewModelTest {
                 .isEqualTo(expected)
             verify {
                 moveUseCase.invoke(cells = any(), index = 0, isCrossMove = any())
-                getMatchStatusUseCase.invoke(cells = any(), boardMode = any(), isCrossMove = any())
+                getMatchStatusUseCase.invoke(cells = any(), boardMode = any())
             }
         }
 
@@ -156,7 +154,6 @@ internal class MatchViewModelTest {
             every { getMatchStatusUseCase.invoke(
                 cells = any(),
                 boardMode = any(),
-                isCrossMove = any(),
             ) } returns Continue
 
             // action
@@ -172,7 +169,7 @@ internal class MatchViewModelTest {
                 .isEqualTo(expected)
             verify {
                 moveUseCase.invoke(cells = any(), index = 0, isCrossMove = any())
-                getMatchStatusUseCase.invoke(cells = any(), boardMode = any(), isCrossMove = any())
+                getMatchStatusUseCase.invoke(cells = any(), boardMode = any())
             }
         }
     }

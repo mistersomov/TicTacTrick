@@ -16,16 +16,15 @@ class GetMatchStatusUseCaseImpl : GetMatchStatusUseCase {
     override operator fun invoke(
         cells: List<Cell>,
         boardMode: BoardMode,
-        isCrossMove: Boolean,
     ): MatchStatus {
-        val cellType = if (isCrossMove) CROSS else ZERO
-        val combinations = generateWinningCombinations(boardMode.value)
-        val winningCombination = combinations.firstOrNull { combination ->
-            combination.all { index -> cells[index].type == cellType }
+        val combinations: List<List<Int>> = generateWinningCombinations(boardMode.value)
+        val winningCombination: List<Int>? = combinations.firstOrNull { combination ->
+            combination.all { index -> cells[index].type == CROSS }
+                    || combination.all { index -> cells[index].type == ZERO }
         }
 
         return when {
-            winningCombination != null -> Victory(cellType, winningCombination)
+            winningCombination != null -> Victory(cells[winningCombination[0]].type, winningCombination)
             cells.none { it.type == EMPTY } -> Draw
             else -> Continue
         }

@@ -95,7 +95,6 @@ class MatchViewModel(
             val matchStatus: MatchStatus = getMatchStatusUseCase(
                 cells = updatedCells,
                 boardMode = boardMode,
-                isCrossMove = isCrossMove,
             )
 
             when(matchStatus) {

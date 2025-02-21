@@ -18,7 +18,6 @@ internal class GetMatchStatusUseCaseImplTest {
 
     enum class Status(
         val cells: List<Cell>,
-        val isCrossMove: Boolean,
         val expected: MatchStatus,
     ) {
         WIN_BY_FIRST_ROW_CROSS(
@@ -33,7 +32,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = true,
             expected = Victory(
                 winner = CROSS,
                 combination = listOf(0, 1, 2),
@@ -51,7 +49,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = true,
             expected = Victory(
                 winner = CROSS,
                 combination = listOf(3, 4, 5),
@@ -69,7 +66,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = CROSS),
                 Cell(id = 8, type = CROSS),
             ),
-            isCrossMove = true,
             expected = Victory(
                 winner = CROSS,
                 combination = listOf(6, 7, 8),
@@ -87,7 +83,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = true,
             expected = Victory(
                 winner = CROSS,
                 combination = listOf(0, 3, 6),
@@ -105,7 +100,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = CROSS),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = true,
             expected = Victory(
                 winner = CROSS,
                 combination = listOf(1, 4, 7),
@@ -123,7 +117,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = CROSS),
             ),
-            isCrossMove = true,
             expected = Victory(
                 winner = CROSS,
                 combination = listOf(2, 5, 8),
@@ -141,7 +134,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = CROSS),
             ),
-            isCrossMove = true,
             expected = Victory(
                 winner = CROSS,
                 combination = listOf(0, 4, 8),
@@ -159,7 +151,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = true,
             expected = Victory(
                 winner = CROSS,
                 combination = listOf(2, 4, 6),
@@ -177,7 +168,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = false,
             expected = Victory(
                 winner = ZERO,
                 combination = listOf(0, 1, 2),
@@ -195,7 +185,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = false,
             expected = Victory(
                 winner = ZERO,
                 combination = listOf(3, 4, 5),
@@ -213,7 +202,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = ZERO),
                 Cell(id = 8, type = ZERO),
             ),
-            isCrossMove = false,
             expected = Victory(
                 winner = ZERO,
                 combination = listOf(6, 7, 8),
@@ -231,7 +219,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = false,
             expected = Victory(
                 winner = ZERO,
                 combination = listOf(0, 3, 6),
@@ -249,7 +236,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = ZERO),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = false,
             expected = Victory(
                 winner = ZERO,
                 combination = listOf(1, 4, 7),
@@ -267,7 +253,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = ZERO),
             ),
-            isCrossMove = false,
             expected = Victory(
                 winner = ZERO,
                 combination = listOf(2, 5, 8),
@@ -285,7 +270,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = ZERO),
             ),
-            isCrossMove = false,
             expected = Victory(
                 winner = ZERO,
                 combination = listOf(0, 4, 8),
@@ -303,7 +287,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = false,
             expected = Victory(
                 winner = ZERO,
                 combination = listOf(2, 4, 6),
@@ -314,14 +297,13 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 0, type = ZERO),
                 Cell(id = 1, type = CROSS),
                 Cell(id = 2, type = ZERO),
-                Cell(id = 3, type = CROSS),
-                Cell(id = 4, type = ZERO),
+                Cell(id = 3, type = ZERO),
+                Cell(id = 4, type = CROSS),
                 Cell(id = 5, type = CROSS),
-                Cell(id = 6, type = ZERO),
-                Cell(id = 7, type = CROSS),
+                Cell(id = 6, type = CROSS),
+                Cell(id = 7, type = ZERO),
                 Cell(id = 8, type = ZERO),
             ),
-            isCrossMove = true,
             expected = Draw,
         ),
         CONTINUE(
@@ -329,14 +311,13 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 0, type = EMPTY),
                 Cell(id = 1, type = CROSS),
                 Cell(id = 2, type = ZERO),
-                Cell(id = 3, type = CROSS),
-                Cell(id = 4, type = ZERO),
+                Cell(id = 3, type = ZERO),
+                Cell(id = 4, type = CROSS),
                 Cell(id = 5, type = CROSS),
-                Cell(id = 6, type = ZERO),
-                Cell(id = 7, type = CROSS),
+                Cell(id = 6, type = CROSS),
+                Cell(id = 7, type = ZERO),
                 Cell(id = 8, type = ZERO),
             ),
-            isCrossMove = true,
             expected = Continue,
         ),
         CONTINUE_DIAGONAL(
@@ -351,7 +332,6 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 7, type = EMPTY),
                 Cell(id = 8, type = EMPTY),
             ),
-            isCrossMove = true,
             expected = Continue,
         ),
     }
@@ -362,8 +342,7 @@ internal class GetMatchStatusUseCaseImplTest {
         // action
         val action = getMatchStatusUseCase(
             cells = item.cells,
-            boardMode = BoardMode.THREE,
-            isCrossMove = item.isCrossMove
+            boardMode = BoardMode.THREE
         )
 
         // assert
