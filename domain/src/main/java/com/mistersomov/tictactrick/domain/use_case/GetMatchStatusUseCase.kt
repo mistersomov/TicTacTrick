@@ -8,6 +8,5 @@ interface GetMatchStatusUseCase {
     operator fun invoke(
         cells: List<Cell>,
         boardMode: BoardMode,
-        isCrossMove: Boolean,
     ): MatchStatus
 }
