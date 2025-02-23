@@ -4,13 +4,14 @@ import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
-import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Freezing
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Tornado
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-internal class ApplyTrickyCardUseCaseImplTest {
-    private val applyTrickyCardUseCase = ApplyTrickyCardUseCaseImpl()
+internal class ActivateTrickyCardUseCaseImplTest {
+    private val activateTrickyCardUseCase = ActivateTrickyCardUseCaseImpl()
 
     @Nested
     inner class Freezing {
@@ -26,7 +27,7 @@ internal class ApplyTrickyCardUseCaseImplTest {
                 Cell(id = 4, type = CROSS),
                 Cell(id = 5, type = ZERO),
             )
-            val freezingCard = TrickyCard.Freezing(cellId = 1)
+            val freezingCard = Freezing(sourceId = 1)
             val expected: List<Cell> = listOf(
                 Cell(id = 0, type = ZERO),
                 Cell(id = 1, type = CROSS),
@@ -37,7 +38,7 @@ internal class ApplyTrickyCardUseCaseImplTest {
             )
 
             // action
-            val action = applyTrickyCardUseCase(cells = cells, card = freezingCard)
+            val action = activateTrickyCardUseCase(cells = cells, card = freezingCard)
 
 
             // assert
@@ -55,7 +56,7 @@ internal class ApplyTrickyCardUseCaseImplTest {
                 Cell(id = 4, type = CROSS),
                 Cell(id = 5, type = ZERO),
             )
-            val freezingCard = TrickyCard.Freezing(cellId = 2)
+            val freezing = Freezing(sourceId = 2)
             val expected: List<Cell> = listOf(
                 Cell(id = 0, type = ZERO),
                 Cell(id = 1, type = CROSS),
@@ -70,7 +71,7 @@ internal class ApplyTrickyCardUseCaseImplTest {
             )
 
             // action
-            val action = applyTrickyCardUseCase(cells = cells, card = freezingCard)
+            val action = activateTrickyCardUseCase(cells = cells, card = freezing)
 
 
             // assert
@@ -88,7 +89,7 @@ internal class ApplyTrickyCardUseCaseImplTest {
                 Cell(id = 4, type = CROSS),
                 Cell(id = 5, type = ZERO),
             )
-            val freezingCard = TrickyCard.Freezing(cellId = 2)
+            val freezing = Freezing(sourceId = 2)
             val expected: List<Cell> = listOf(
                 Cell(id = 0, type = ZERO),
                 Cell(id = 1, type = CROSS),
@@ -103,8 +104,54 @@ internal class ApplyTrickyCardUseCaseImplTest {
             )
 
             // action
-            val action = applyTrickyCardUseCase(cells = cells, card = freezingCard)
+            val action = activateTrickyCardUseCase(cells = cells, card = freezing)
 
+
+            // assert
+            assertEquals(expected, action)
+        }
+    }
+
+    @Nested
+    inner class Tornado {
+
+        @Test
+        fun `not found indices`() {
+            // mock
+            val cells: List<Cell> = listOf(
+                Cell(id = 0),
+                Cell(id = 5),
+            )
+            val tornado = Tornado(sourceId = -1, targetId = 100)
+            val expected: List<Cell> = listOf(
+                Cell(id = 0),
+                Cell(id = 5),
+            )
+
+            // action
+            val action = activateTrickyCardUseCase(cells = cells, card = tornado)
+
+            // assert
+            assertEquals(expected, action)
+        }
+
+        @Test
+        fun `found indices`() {
+            // mock
+            val cells: List<Cell> = listOf(
+                Cell(id = 0),
+                Cell(id = 1, type = CROSS),
+                Cell(id = 2, type = ZERO),
+            )
+            val tornado = Tornado(sourceId = 1, targetId = 2)
+            val expected: List<Cell> = listOf(
+                Cell(id = 0),
+                Cell(id = 1, type = ZERO),
+                Cell(id = 2, type = CROSS),
+            )
+
+            // action
+            val action = activateTrickyCardUseCase(cells = cells, card = tornado)
 
             // assert
             assertEquals(expected, action)
