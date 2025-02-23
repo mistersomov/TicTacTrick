@@ -1,10 +1,7 @@
-package com.mistersomov.happyandhealth.presentation
+package com.mistersomov.tictactrick.presentation
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
@@ -24,13 +21,3 @@ class TestDispatcherExtension : BeforeEachCallback, AfterEachCallback {
         Dispatchers.resetMain()
     }
 }
-
-//context(TestScope)
-//@OptIn(ExperimentalCoroutinesApi::class)
-//fun <T> Flow<T>.test(): List<T> {
-//    val results = mutableListOf<T>()
-//    backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
-//        this@test.toList(results)
-//    }
-//    return results
-//}

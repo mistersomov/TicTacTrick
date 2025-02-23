@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-internal class ActivateTrickyCardUseCaseImplTest {
-    private val activateTrickyCardUseCase = ActivateTrickyCardUseCaseImpl()
+internal class ApplyTrickyCardUseCaseImplTest {
+    private val applyTrickyCardUseCase = ApplyTrickyCardUseCaseImpl()
 
     @Nested
     inner class Freezing {
@@ -38,7 +38,7 @@ internal class ActivateTrickyCardUseCaseImplTest {
             )
 
             // action
-            val action = activateTrickyCardUseCase(cells = cells, card = freezingCard)
+            val action = applyTrickyCardUseCase(cells = cells, card = freezingCard)
 
 
             // assert
@@ -71,7 +71,7 @@ internal class ActivateTrickyCardUseCaseImplTest {
             )
 
             // action
-            val action = activateTrickyCardUseCase(cells = cells, card = freezing)
+            val action = applyTrickyCardUseCase(cells = cells, card = freezing)
 
 
             // assert
@@ -104,7 +104,7 @@ internal class ActivateTrickyCardUseCaseImplTest {
             )
 
             // action
-            val action = activateTrickyCardUseCase(cells = cells, card = freezing)
+            val action = applyTrickyCardUseCase(cells = cells, card = freezing)
 
 
             // assert
@@ -129,7 +129,7 @@ internal class ActivateTrickyCardUseCaseImplTest {
             )
 
             // action
-            val action = activateTrickyCardUseCase(cells = cells, card = tornado)
+            val action = applyTrickyCardUseCase(cells = cells, card = tornado)
 
             // assert
             assertEquals(expected, action)
@@ -151,7 +151,7 @@ internal class ActivateTrickyCardUseCaseImplTest {
             )
 
             // action
-            val action = activateTrickyCardUseCase(cells = cells, card = tornado)
+            val action = applyTrickyCardUseCase(cells = cells, card = tornado)
 
             // assert
             assertEquals(expected, action)

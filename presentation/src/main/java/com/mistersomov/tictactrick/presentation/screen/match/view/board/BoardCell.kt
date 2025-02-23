@@ -1,11 +1,13 @@
 package com.mistersomov.tictactrick.presentation.screen.match.view.board
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -16,34 +18,35 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import com.mistersomov.tictactrick.domain.entity.board.Cell
-import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
-import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
-import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
 import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
+import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
 import kotlinx.coroutines.delay
 
 @Composable
 fun BoardCell(
-    item: Cell,
+    entity: CellUiEntity,
     cellSize: Dp,
     isWinningCell: Boolean,
-    onClick: (id: Int) -> Unit,
+    onClick: (cell: CellUiEntity) -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
     val scaleVal = remember { Animatable(1f) }
 
     val adjustedCellSize = cellSize.coerceAtLeast(24.dp)
-    val imageSize = 0.6 * adjustedCellSize
+    val imageSize = 0.8 * adjustedCellSize
 
     LaunchedEffect(isWinningCell) {
         if (isWinningCell) {
@@ -57,8 +60,8 @@ fun BoardCell(
             )
         }
     }
-    LaunchedEffect(item.isRevealed) {
-        if (item.isRevealed) {
+    LaunchedEffect(entity.isRevealed) {
+        if (entity.isRevealed) {
             scaleVal.animateTo(
                 targetValue = 1f,
                 animationSpec = keyframes {
@@ -78,26 +81,45 @@ fun BoardCell(
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
-            ) {
-                if (!item.isRevealed) {
-                    onClick(item.id)
-                }
-            },
+                onClick = { onClick(entity) }
+            )
+            .then(
+                if (entity.isFrozen) {
+                    Modifier
+                        .background(Color(0x883399FF)) // Полупрозрачный синий цвет
+                        .blur(8.dp) // Размытие
+                } else Modifier
+            ),
         contentAlignment = Alignment.Center,
     ) {
-        val (@DrawableRes imageRes: Int?, @StringRes description: Int?) = when (item.type) {
-            CROSS -> R.drawable.cross to R.string.cross
-            ZERO -> R.drawable.zero to R.string.zero
-            EMPTY -> null to null
-        }
-
-        imageRes?.let { image ->
+        entity.imageRes?.let { image ->
             Image(
                 modifier = Modifier.size(imageSize),
                 painter = painterResource(image),
-                contentDescription = description?.let { stringResource(it) },
+                contentDescription = entity.imageDescription?.let { stringResource(it) },
             )
         }
+    }
+}
+
+@Composable
+fun FrostedOverlay(isFrozen: Boolean, modifier: Modifier = Modifier) {
+    AnimatedVisibility(
+        visible = isFrozen,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        Box(
+            modifier = modifier
+                .background(
+                    Brush.linearGradient(
+                        colors = listOf(Color(0x66FFFFFF), Color(0xAA80D8FF), Color(0x660000FF)),
+                        start = Offset(0f, 0f),
+                        end = Offset(100f, 100f)
+                    )
+                )
+                .blur(16.dp)
+        )
     }
 }
 
@@ -106,13 +128,19 @@ fun BoardCell(
 private fun MatchCellPreview() {
     Column {
         BoardCell(
-            item = Cell(id = 0, type = CROSS),
+            entity = CellUiEntity(
+                id = 0,
+                imageRes = R.drawable.cross,
+            ),
             cellSize = 120.dp,
             isWinningCell = true,
             onClick = {},
         )
         BoardCell(
-            item = Cell(id = 0, type = ZERO),
+            entity = CellUiEntity(
+                id = 1,
+                imageRes = R.drawable.zero,
+            ),
             cellSize = 120.dp,
             isWinningCell = false,
             onClick = {},
