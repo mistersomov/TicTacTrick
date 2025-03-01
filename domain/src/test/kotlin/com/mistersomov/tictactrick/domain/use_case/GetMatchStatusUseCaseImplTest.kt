@@ -349,32 +349,4 @@ internal class GetMatchStatusUseCaseImplTest {
         assertEquals(item.expected, action)
     }
 
-    enum class Combination(
-        val size: Int,
-        val expected: List<List<Int>>,
-    ) {
-        THREE(
-            size = 3,
-            expected = listOf(
-                listOf(0, 1, 2),
-                listOf(0, 3, 6),
-                listOf(3, 4, 5),
-                listOf(1, 4, 7),
-                listOf(6, 7, 8),
-                listOf(2, 5, 8),
-                listOf(0, 4, 8),
-                listOf(2, 4, 6),
-            ),
-        ),
-    }
-
-    @ParameterizedTest
-    @EnumSource(Combination::class)
-    fun generateWinningCombinations(item: Combination) {
-        // action
-        val action = getMatchStatusUseCase.generateWinningCombinations(item.size)
-
-        // assert
-        assertEquals(item.expected, action)
-    }
 }

@@ -1,6 +1,5 @@
 package com.mistersomov.tictactrick.domain.use_case
 
-import androidx.annotation.VisibleForTesting
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Draw
@@ -30,8 +29,7 @@ class GetMatchStatusUseCaseImpl : GetMatchStatusUseCase {
         }
     }
 
-    @VisibleForTesting
-    fun generateWinningCombinations(size: Int): List<List<Int>> {
+    private fun generateWinningCombinations(size: Int): List<List<Int>> {
         val combinations = mutableListOf<List<Int>>()
 
         for (i in 0 until size) {

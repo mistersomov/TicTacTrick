@@ -1,29 +1,25 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    id("java-library")
+    alias(libs.plugins.jetbrains.kotlin.jvm)
 }
 
-android {
-    namespace = "com.mistersomov.tictactrick.domain"
-    compileSdk = 35
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    tasks.withType<Test> {
-        useJUnitPlatform()
-        jvmArgs("-XX:+EnableDynamicAgentLoading")
-    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    jvmArgs("-XX:+EnableDynamicAgentLoading")
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-
     testImplementation(libs.junit)
     testImplementation(libs.junit.api)
     testImplementation(libs.junit.params)
