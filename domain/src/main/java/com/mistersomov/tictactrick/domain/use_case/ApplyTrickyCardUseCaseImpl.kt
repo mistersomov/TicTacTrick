@@ -6,7 +6,7 @@ import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Freezing
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Tornado
 
-class ActivateTrickyCardUseCaseImpl : ActivateTrickyCardUseCase {
+class ApplyTrickyCardUseCaseImpl : ApplyTrickyCardUseCase {
 
     override operator fun invoke(cells: List<Cell>, card: TrickyCard): List<Cell> =
         when (card) {

@@ -16,6 +16,7 @@ android {
     }
     tasks.withType<Test> {
         useJUnitPlatform()
+        jvmArgs("-XX:+EnableDynamicAgentLoading")
     }
 }
 

@@ -1,7 +1,6 @@
 package com.mistersomov.tictactrick.presentation.screen.match
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,9 +30,11 @@ import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.common.GameDialog
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowDialog
-import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Reset
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.ActivateTrickyCard
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Restart
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.StartGame
 import com.mistersomov.tictactrick.presentation.screen.match.view.board.Board
+import com.mistersomov.tictactrick.presentation.screen.match.view.tricky_card.TrickyCardGroup
 import com.mistersomov.tictactrick.presentation.screen.match.viewmodel.MatchViewModel
 import kotlinx.coroutines.delay
 
@@ -45,7 +46,7 @@ fun MatchScreen(viewModel: MatchViewModel = viewModel(factory = MatchViewModel.F
     var showDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) { sendIntent(StartGame) }
-    LaunchedEffect(Unit) {
+    LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
                 is ShowDialog -> {
@@ -60,7 +61,7 @@ fun MatchScreen(viewModel: MatchViewModel = viewModel(factory = MatchViewModel.F
         GameDialog(
             title = if (viewState.matchStatus is MatchStatus.Victory) "Victory" else "Draw",
             onRestart = {
-                sendIntent(Reset)
+                sendIntent(Restart)
                 showDialog = false
             }
         )
@@ -71,7 +72,6 @@ fun MatchScreen(viewModel: MatchViewModel = viewModel(factory = MatchViewModel.F
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(color = Color.White)
         ) {
             Row(
                 modifier = Modifier
@@ -86,7 +86,7 @@ fun MatchScreen(viewModel: MatchViewModel = viewModel(factory = MatchViewModel.F
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Image(
-                        modifier = Modifier.size(96.dp),
+                        modifier = Modifier.size(72.dp),
                         painter = painterResource(R.drawable.cross),
                         contentDescription = stringResource(R.string.cross),
                     )
@@ -98,14 +98,21 @@ fun MatchScreen(viewModel: MatchViewModel = viewModel(factory = MatchViewModel.F
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Image(
-                        modifier = Modifier.size(96.dp),
+                        modifier = Modifier.size(72.dp),
                         painter = painterResource(R.drawable.zero),
                         contentDescription = stringResource(R.string.cross),
                     )
                     Text("Player 2")
                 }
             }
-            Board(viewState = viewState, sendIntent = sendIntent)
+            Board(
+                viewState = viewState,
+                sendIntent = sendIntent,
+            )
+            TrickyCardGroup(
+                cards = viewState.trickyCards,
+                onCardClick = { sendIntent(ActivateTrickyCard(it)) }
+            )
         }
     }
 }

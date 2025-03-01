@@ -19,14 +19,11 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Victory
-import com.mistersomov.tictactrick.domain.entity.board.Cell
-import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
-import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
-import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Move
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.State
+import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
 
 @Composable
 internal fun Board(
@@ -59,18 +56,14 @@ internal fun Board(
                         val index = i + j
 
                         BoardCell(
-                            item = viewState.cells[index],
+                            entity = viewState.cells[index],
                             cellSize = cellSize,
                             isWinningCell = if (viewState.matchStatus is Victory) {
                                 index in viewState.matchStatus.combination
                             } else {
                                 false
                             },
-                            onClick = {
-                                if (!viewState.gameOver) {
-                                    sendIntent(Move(it))
-                                }
-                            },
+                            onClick = { sendIntent(Move(it)) },
                         )
                     }
                 }
@@ -104,17 +97,11 @@ private fun DrawScope.drawBorders(gridSize: Int, boardSize: Float) {
 @Composable
 private fun BoardPreview() {
     val viewState = State(
-        cells = listOf(
-            Cell(0, EMPTY),
-            Cell(1, CROSS),
-            Cell(2, ZERO),
-            Cell(3, ZERO),
-            Cell(4, CROSS),
-            Cell(5, EMPTY),
-            Cell(6, CROSS),
-            Cell(7, ZERO),
-            Cell(8, EMPTY),
-        ),
+        cells = buildList {
+            repeat(16) {
+                add(CellUiEntity(0))
+            }
+        }
     )
     Board(viewState) { }
 }

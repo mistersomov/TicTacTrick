@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
-import com.mistersomov.tictactrick.domain.entity.MatchStatus.Draw
-import com.mistersomov.tictactrick.domain.entity.MatchStatus.Victory
+import com.mistersomov.tictactrick.domain.entity.board.BoardMode
 import com.mistersomov.tictactrick.domain.entity.board.Cell
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Freezing
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Tornado
+import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCase
+import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCaseImpl
 import com.mistersomov.tictactrick.domain.use_case.GetMatchStatusUseCase
 import com.mistersomov.tictactrick.domain.use_case.GetMatchStatusUseCaseImpl
 import com.mistersomov.tictactrick.domain.use_case.MoveUseCase
@@ -17,10 +20,18 @@ import com.mistersomov.tictactrick.domain.use_case.MoveUseCaseImpl
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowDialog
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.ActivateTrickyCard
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Move
-import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Reset
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Restart
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.StartGame
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.State
+import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
+import com.mistersomov.tictactrick.presentation.screen.match.entity.board.toDomain
+import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
+import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent
+import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.ApplyTrickyCard
+import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutator
+import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutatorImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,8 +41,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MatchViewModel(
-    private val moveUseCase: MoveUseCase = MoveUseCaseImpl(),
+    private val applyTrickyCardUseCase: ApplyTrickyCardUseCase = ApplyTrickyCardUseCaseImpl(),
     private val getMatchStatusUseCase: GetMatchStatusUseCase = GetMatchStatusUseCaseImpl(),
+    private val moveUseCase: MoveUseCase = MoveUseCaseImpl(),
+    private val mutator: MatchStateMutator = MatchStateMutatorImpl(),
 ) : ViewModel() {
 
     private val _effect: MutableSharedFlow<Effect> = MutableSharedFlow()
@@ -48,6 +61,9 @@ class MatchViewModel(
                 MatchViewModel()
             }
         }
+
+        private const val SINGLE_SELECT = 1
+        private const val MULTIPLE_SELECT = 2
     }
 
     init {
@@ -74,41 +90,131 @@ class MatchViewModel(
 
     private fun handleIntent(intent: Intent) {
         when (intent) {
-            is StartGame -> startGame()
-            is Move -> move(intent.cellId)
-            is Reset -> reset()
+            is StartGame, Restart -> startGame()
+            is Move -> move(intent.cell)
+            is ActivateTrickyCard -> activateTrickyCard(intent.card)
         }
     }
 
     private fun startGame() {
-        val size = viewState.value.boardMode.value * viewState.value.boardMode.value
-        setState { copy(cells = List(size) { Cell(id = it) }) }
+        setState {
+            mutator.mutate(
+                currentState = viewState.value,
+                event = MatchMutatorEvent.StartMatch(
+                    mode = BoardMode.FOUR, // TODO Прокинуть через аргумиенты
+                    trickyCards = listOf(Tornado(), Freezing()), // TODO Добавить рандомайзер карт
+                ),
+            )
+        }
     }
 
-    private fun move(cellId: Int) {
+    private fun move(cell: CellUiEntity) {
         with(viewState.value) {
-            val updatedCells: List<Cell> = moveUseCase(
-                cells = cells,
-                index = cellId,
-                isCrossMove = isCrossMove,
-            )
-            val matchStatus: MatchStatus = getMatchStatusUseCase(
-                cells = updatedCells,
-                boardMode = boardMode,
-            )
+            when {
+                trickyCardSelected?.card is Selectable -> selectCell(cell)
+                !cell.isRevealed && !gameOver -> {
+                    val updatedCells: List<Cell> = moveUseCase(
+                        cells = cells.map { it.toDomain() },
+                        index = cell.id,
+                        isCrossMove = isCrossMove,
+                    )
+                    val matchStatus = getMatchStatusUseCase(
+                        cells = updatedCells,
+                        boardMode = boardMode,
+                    )
 
-            when(matchStatus) {
-                is Victory, Draw -> {
-                    setState { copy(cells = updatedCells, matchStatus = matchStatus, gameOver = true) }
-                    setEffect { ShowDialog }
+                    setState {
+                        mutator.mutate(
+                            currentState = this,
+                            event = MatchMutatorEvent.Move(
+                                updatedCells = updatedCells,
+                                matchStatus = matchStatus,
+                            ),
+                        )
+                    }
+                    if (matchStatus != Continue) {
+                        setEffect { ShowDialog }
+                    }
                 }
-                is Continue -> setState { copy(cells = updatedCells, isCrossMove = !isCrossMove) }
             }
         }
     }
 
-    private fun reset() {
-        setState { State() }
-        startGame()
+    private fun activateTrickyCard(card: TrickyCardUiEntity) {
+        setState {
+            mutator.mutate(
+                currentState = viewState.value,
+                event = MatchMutatorEvent.ActivateTrickyCard(trickyCard = card),
+            )
+        }
     }
+
+    private fun selectCell(cell: CellUiEntity) {
+        viewState.value.trickyCardSelected?.let { trickyCard ->
+            when (trickyCard.card) {
+                is Freezing -> selectSingleCell(cell, trickyCard.card)
+                is Tornado -> selectMultipleCell(cell, trickyCard.card)
+            }
+        }
+    }
+
+    private fun selectSingleCell(cell: CellUiEntity, card: Selectable) {
+        if (cell.isRevealed) return
+
+        with(viewState.value) {
+            val updatedCells = applyTrickyCardUseCase(
+                cells = cells.map { it.toDomain() },
+                card = (card as Freezing).copy(sourceId = cell.id),
+            )
+            val matchStatus = getMatchStatusUseCase(
+                cells = updatedCells,
+                boardMode = boardMode,
+            )
+
+            setState {
+                mutator.mutate(
+                    currentState = this,
+                    event = ApplyTrickyCard(
+                        updatedCells = updatedCells,
+                        matchStatus = matchStatus,
+                    )
+                )
+            }
+        }
+    }
+
+    private fun selectMultipleCell(cell: CellUiEntity, card: Selectable) {
+        if (!cell.isRevealed || cell.imageRes in viewState.value.selectedCells.map { it.imageRes }) {
+            return
+        }
+
+        with(viewState.value) {
+            val updatedSelectedCells = selectedCells + cell.copy(isSelected = true)
+            if (updatedSelectedCells.size < MULTIPLE_SELECT) {
+                setState { copy(selectedCells = updatedSelectedCells) }
+                return
+            }
+
+            val updatedCells = applyTrickyCardUseCase(
+                cells = cells.map { it.toDomain() },
+                card = (card as Tornado).copy(
+                    sourceId = updatedSelectedCells[0].id,
+                    targetId = updatedSelectedCells[1].id,
+                ),
+            )
+            val matchStatus = getMatchStatusUseCase(
+                cells = updatedCells,
+                boardMode = boardMode,
+            )
+
+            setState {
+                mutator.mutate(this, ApplyTrickyCard(updatedCells, matchStatus))
+            }
+
+            if (matchStatus != Continue) {
+                setEffect { ShowDialog }
+            }
+        }
+    }
+
 }
