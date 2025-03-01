@@ -20,6 +20,7 @@ tasks.withType<Test> {
 }
 
 dependencies {
+    testImplementation(libs.assertj.core)
     testImplementation(libs.junit)
     testImplementation(libs.junit.api)
     testImplementation(libs.junit.params)

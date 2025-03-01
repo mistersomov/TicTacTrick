@@ -6,6 +6,7 @@
     <!-- Tricky Cards -->
     <string name="tricky_card_freezing">Freezing</string>
     <string name="tricky_card_tornado">Tornado</string>
+    <string name="tricky_card_harmony">Harmony</string>
 
     <!-- Game Dialog -->
     <string name="reset">Reset</string>
