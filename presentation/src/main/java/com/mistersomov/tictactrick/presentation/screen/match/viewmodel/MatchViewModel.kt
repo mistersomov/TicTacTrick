@@ -10,8 +10,11 @@ import com.mistersomov.tictactrick.domain.entity.board.BoardMode
 import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Global
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable
-import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Freezing
-import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Tornado
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.DualSelectable
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.DualSelectable.Tornado
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Blaze
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
 import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCase
 import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCaseImpl
 import com.mistersomov.tictactrick.domain.use_case.GetMatchStatusUseCase
@@ -101,7 +104,7 @@ class MatchViewModel(
                 currentState = viewState.value,
                 event = MatchMutatorEvent.StartMatch(
                     mode = BoardMode.FOUR, // TODO Прокинуть через аргумиенты
-                    trickyCards = listOf(Global.Harmony, Freezing()), // TODO Добавить рандомайзер карт
+                    trickyCards = listOf(Freezing(), Blaze()), // TODO Добавить рандомайзер карт
                 ),
             )
         }
@@ -177,20 +180,23 @@ class MatchViewModel(
         viewState.value.trickyCardSelected?.let { trickyCard ->
             if (trickyCard.card is Selectable) {
                 when (trickyCard.card) {
-                    is Freezing -> selectSingleCell(cell, trickyCard.card)
+                    is SingleSelectable -> selectSingleCell(cell, trickyCard.card)
                     is Tornado -> selectMultipleCell(cell, trickyCard.card)
                 }
             }
         }
     }
 
-    private fun selectSingleCell(cell: CellUiEntity, card: Selectable) {
+    private fun selectSingleCell(cell: CellUiEntity, card: SingleSelectable) {
         if (cell.isRevealed) return
 
         with(viewState.value) {
             val updatedCells = applyTrickyCardUseCase(
                 cells = cells.map { it.toDomain() },
-                card = (card as Freezing).copy(sourceId = cell.id),
+                card = when (card) {
+                    is Freezing -> card.copy(sourceId = cell.id)
+                    is Blaze -> card.copy(sourceId = cell.id)
+                },
             )
             val matchStatus = getMatchStatusUseCase(
                 cells = updatedCells,
@@ -209,7 +215,7 @@ class MatchViewModel(
         }
     }
 
-    private fun selectMultipleCell(cell: CellUiEntity, card: Selectable) {
+    private fun selectMultipleCell(cell: CellUiEntity, card: DualSelectable) {
         if (!cell.isRevealed || cell.imageRes in viewState.value.selectedCells.map { it.imageRes }) {
             return
         }

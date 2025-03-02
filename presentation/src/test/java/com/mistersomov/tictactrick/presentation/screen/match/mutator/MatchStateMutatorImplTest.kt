@@ -4,8 +4,8 @@ import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
 import com.mistersomov.tictactrick.domain.entity.board.BoardMode.FOUR
 import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
-import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Freezing
-import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Tornado
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.DualSelectable.Tornado
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.State
 import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
@@ -34,7 +34,10 @@ internal class MatchStateMutatorImplTest {
         // action
         val action = mutator.mutate(
             currentState = currentState,
-            event = StartMatch(mode = FOUR, trickyCards = listOf(Tornado(), Freezing()))
+            event = StartMatch(mode = FOUR, trickyCards = listOf(
+                Tornado(),
+                Freezing(),
+            ))
         )
 
         // assert

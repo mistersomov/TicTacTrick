@@ -1,11 +1,8 @@
 package com.mistersomov.tictactrick.presentation.screen.match.view.board
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,7 +15,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -84,11 +80,27 @@ fun BoardCell(
                 onClick = { onClick(entity) }
             )
             .then(
-                if (entity.isFrozen) {
-                    Modifier
-                        .background(Color(0x883399FF)) // Полупрозрачный синий цвет
-                        .blur(8.dp) // Размытие
-                } else Modifier
+                when {
+                    entity.isFrozen -> {
+                        Modifier.background(
+                            Brush.linearGradient(
+                                colors = listOf(Color(0x993399FF), Color(0x125359FF)),
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, adjustedCellSize.value)
+                            )
+                        )
+                    }
+                    entity.isBlazed -> {
+                        Modifier.background(
+                            Brush.linearGradient(
+                                colors = listOf(Color(0xFFFBED4F), Color(0xFFBC0D14)),
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, adjustedCellSize.value)
+                            )
+                        )
+                    }
+                    else -> Modifier
+                }
             ),
         contentAlignment = Alignment.Center,
     ) {
@@ -99,27 +111,6 @@ fun BoardCell(
                 contentDescription = entity.imageDescription?.let { stringResource(it) },
             )
         }
-    }
-}
-
-@Composable
-fun FrostedOverlay(isFrozen: Boolean, modifier: Modifier = Modifier) {
-    AnimatedVisibility(
-        visible = isFrozen,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
-        Box(
-            modifier = modifier
-                .background(
-                    Brush.linearGradient(
-                        colors = listOf(Color(0x66FFFFFF), Color(0xAA80D8FF), Color(0x660000FF)),
-                        start = Offset(0f, 0f),
-                        end = Offset(100f, 100f)
-                    )
-                )
-                .blur(16.dp)
-        )
     }
 }
 

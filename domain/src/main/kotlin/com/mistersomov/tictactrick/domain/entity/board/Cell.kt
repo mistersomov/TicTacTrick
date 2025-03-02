@@ -6,5 +6,6 @@ data class Cell(
     val id: Int,
     val type: CellType = EMPTY,
     val isRevealed: Boolean = false,
-    val isLocked: Boolean = false,
+    val isFrozen: Boolean = false,
+    val isBlazed: Boolean = false,
 )

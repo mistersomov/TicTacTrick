@@ -5,11 +5,17 @@ sealed interface TrickyCard {
     sealed interface Selectable : TrickyCard {
         val sourceId: Int
 
-        data class Freezing(override val sourceId: Int = -1) : Selectable
-        data class Tornado(
-            override val sourceId: Int = -1,
-            val targetId: Int = -1,
-        ) : Selectable
+        sealed interface SingleSelectable : Selectable {
+            data class Freezing(override val sourceId: Int = -1) : SingleSelectable
+            data class Blaze(override val sourceId: Int = -1) : SingleSelectable
+        }
+
+        sealed interface DualSelectable : Selectable {
+            data class Tornado(
+                override val sourceId: Int = -1,
+                val targetId: Int = -1,
+            ) : DualSelectable
+        }
     }
 
     sealed interface Global : TrickyCard {
