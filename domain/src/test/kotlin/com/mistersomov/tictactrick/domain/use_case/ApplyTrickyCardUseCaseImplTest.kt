@@ -4,8 +4,12 @@ import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Global.Harmony
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Freezing
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Tornado
+import io.mockk.every
+import io.mockk.mockk
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -156,5 +160,20 @@ internal class ApplyTrickyCardUseCaseImplTest {
             // assert
             assertEquals(expected, action)
         }
+    }
+
+    @Test
+    fun `invoke() - Apply Harmony and unlocked fields`() {
+        // mock
+        val cell1: Cell = mockk(relaxed = true) { every { isLocked } returns true }
+        val cell2: Cell = mockk(relaxed = true) { every { isLocked } returns true }
+        val cell3: Cell = mockk(relaxed = true) { every { isLocked } returns false }
+        val cells: List<Cell> = listOf(cell1, cell2, cell3)
+
+        // action
+        val action = applyTrickyCardUseCase(cells, Harmony)
+
+        // assert
+        assertThat(action.any { it.isLocked }).isFalse()
     }
 }

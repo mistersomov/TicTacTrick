@@ -3,6 +3,7 @@ package com.mistersomov.tictactrick.domain.use_case
 import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Global.Harmony
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Freezing
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Tornado
 
@@ -12,6 +13,7 @@ class ApplyTrickyCardUseCaseImpl : ApplyTrickyCardUseCase {
         when (card) {
             is Freezing -> applyFreezing(cells, card)
             is Tornado -> applyTornado(cells, card)
+            is Harmony -> applyHarmony(cells)
         }
 
     private fun applyFreezing(cells: List<Cell>, freezing: Freezing): List<Cell> {
@@ -44,5 +46,7 @@ class ApplyTrickyCardUseCaseImpl : ApplyTrickyCardUseCase {
             cells
         }
     }
+
+    private fun applyHarmony(cells: List<Cell>): List<Cell> = cells.map { it.copy(isLocked = false) }
 
 }

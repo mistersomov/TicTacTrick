@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
 import com.mistersomov.tictactrick.domain.entity.board.BoardMode
 import com.mistersomov.tictactrick.domain.entity.board.Cell
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Global
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Freezing
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Tornado
@@ -29,7 +30,6 @@ import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUi
 import com.mistersomov.tictactrick.presentation.screen.match.entity.board.toDomain
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent
-import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.ApplyTrickyCard
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutator
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutatorImpl
 import kotlinx.coroutines.flow.Flow
@@ -62,7 +62,6 @@ class MatchViewModel(
             }
         }
 
-        private const val SINGLE_SELECT = 1
         private const val MULTIPLE_SELECT = 2
     }
 
@@ -102,7 +101,7 @@ class MatchViewModel(
                 currentState = viewState.value,
                 event = MatchMutatorEvent.StartMatch(
                     mode = BoardMode.FOUR, // TODO Прокинуть через аргумиенты
-                    trickyCards = listOf(Tornado(), Freezing()), // TODO Добавить рандомайзер карт
+                    trickyCards = listOf(Global.Harmony, Freezing()), // TODO Добавить рандомайзер карт
                 ),
             )
         }
@@ -140,6 +139,27 @@ class MatchViewModel(
         }
     }
 
+    private fun applyGlobalTrickyCard() {
+        with(viewState.value) {
+            trickyCardSelected?.card?.let { trickyCard ->
+                val updatedCells = applyTrickyCardUseCase(
+                    cells = cells.map { it.toDomain() },
+                    card = trickyCard,
+                )
+
+                setState {
+                    mutator.mutate(
+                        currentState = this,
+                        event = MatchMutatorEvent.ApplyTrickyCard(
+                            updatedCells = updatedCells,
+                            matchStatus = Continue,
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     private fun activateTrickyCard(card: TrickyCardUiEntity) {
         setState {
             mutator.mutate(
@@ -147,13 +167,19 @@ class MatchViewModel(
                 event = MatchMutatorEvent.ActivateTrickyCard(trickyCard = card),
             )
         }
+
+        if (card.card is Global) {
+            applyGlobalTrickyCard()
+        }
     }
 
     private fun selectCell(cell: CellUiEntity) {
         viewState.value.trickyCardSelected?.let { trickyCard ->
-            when (trickyCard.card) {
-                is Freezing -> selectSingleCell(cell, trickyCard.card)
-                is Tornado -> selectMultipleCell(cell, trickyCard.card)
+            if (trickyCard.card is Selectable) {
+                when (trickyCard.card) {
+                    is Freezing -> selectSingleCell(cell, trickyCard.card)
+                    is Tornado -> selectMultipleCell(cell, trickyCard.card)
+                }
             }
         }
     }
@@ -174,7 +200,7 @@ class MatchViewModel(
             setState {
                 mutator.mutate(
                     currentState = this,
-                    event = ApplyTrickyCard(
+                    event = MatchMutatorEvent.ApplyTrickyCard(
                         updatedCells = updatedCells,
                         matchStatus = matchStatus,
                     )
@@ -208,7 +234,10 @@ class MatchViewModel(
             )
 
             setState {
-                mutator.mutate(this, ApplyTrickyCard(updatedCells, matchStatus))
+                mutator.mutate(
+                    currentState = this,
+                    event = MatchMutatorEvent.ApplyTrickyCard(updatedCells, matchStatus),
+                )
             }
 
             if (matchStatus != Continue) {

@@ -12,4 +12,8 @@ sealed interface TrickyCard {
         ) : Selectable
     }
 
+    sealed interface Global : TrickyCard {
+        data object Harmony : Global
+    }
+
 }
