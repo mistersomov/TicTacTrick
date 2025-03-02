@@ -4,26 +4,31 @@ import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Global.Harmony
-import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Freezing
-import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.Tornado
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.DualSelectable.Tornado
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Blaze
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
 
 class ApplyTrickyCardUseCaseImpl : ApplyTrickyCardUseCase {
 
     override operator fun invoke(cells: List<Cell>, card: TrickyCard): List<Cell> =
         when (card) {
-            is Freezing -> applyFreezing(cells, card)
+            is SingleSelectable-> applySingleSelectable(cells, card)
             is Tornado -> applyTornado(cells, card)
             is Harmony -> applyHarmony(cells)
         }
 
-    private fun applyFreezing(cells: List<Cell>, freezing: Freezing): List<Cell> {
+    private fun applySingleSelectable(cells: List<Cell>, card: SingleSelectable): List<Cell> {
         val cell: Cell? = cells
-            .filter { !it.isLocked && it.type == EMPTY }
-            .firstOrNull { it.id == freezing.sourceId }
+            .filter { !it.isFrozen && !it.isBlazed && it.type == EMPTY }
+            .firstOrNull { it.id == card.sourceId }
 
         return cells.map {
             if (it.id == cell?.id) {
-                it.copy(isLocked = true)
+                it.copy(
+                    isFrozen = card is Freezing,
+                    isBlazed = card is Blaze,
+                )
             } else {
                 it
             }
@@ -47,6 +52,6 @@ class ApplyTrickyCardUseCaseImpl : ApplyTrickyCardUseCase {
         }
     }
 
-    private fun applyHarmony(cells: List<Cell>): List<Cell> = cells.map { it.copy(isLocked = false) }
+    private fun applyHarmony(cells: List<Cell>): List<Cell> = cells.map { it.copy(isFrozen = false) }
 
 }

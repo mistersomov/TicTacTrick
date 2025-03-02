@@ -18,6 +18,7 @@ data class CellUiEntity(
     val isRevealed: Boolean = false,
     val isSelected: Boolean = false,
     val isFrozen: Boolean = false,
+    val isBlazed: Boolean = false,
 )
 
 fun Cell.toUi(): CellUiEntity {
@@ -32,7 +33,8 @@ fun Cell.toUi(): CellUiEntity {
         imageRes = imageRes,
         imageDescription = description,
         isRevealed = type != EMPTY,
-        isFrozen = isLocked,
+        isFrozen = isFrozen,
+        isBlazed = isBlazed,
     )
 }
 
@@ -44,5 +46,7 @@ fun CellUiEntity.toDomain(): Cell =
             R.drawable.zero -> ZERO
             else -> EMPTY
         },
-        isLocked = isFrozen,
+        isRevealed = isRevealed,
+        isFrozen = isFrozen,
+        isBlazed = isBlazed,
     )

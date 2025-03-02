@@ -12,9 +12,11 @@ class MoveUseCaseImpl : MoveUseCase {
         index: Int,
         isCrossMove: Boolean,
     ): List<Cell> {
-        if (cells[index].type != EMPTY || cells[index].isLocked) return cells
+        if (cells[index].type != EMPTY || cells[index].isFrozen || cells[index].isBlazed) {
+            return cells
+        }
 
-        val cellType = if (isCrossMove) CROSS else  ZERO
+        val cellType = if (isCrossMove) CROSS else ZERO
 
         return cells.mapIndexed { i, cell ->
             if (i == index) {

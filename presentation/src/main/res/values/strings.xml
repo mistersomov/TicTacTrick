@@ -5,6 +5,7 @@
 
     <!-- Tricky Cards -->
     <string name="tricky_card_freezing">Freezing</string>
+    <string name="tricky_card_blaze">Blaze</string>
     <string name="tricky_card_tornado">Tornado</string>
     <string name="tricky_card_harmony">Harmony</string>
 
