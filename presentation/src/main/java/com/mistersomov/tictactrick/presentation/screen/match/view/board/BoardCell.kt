@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import com.mistersomov.core.ui_kit.TicTacTrickTheme
 import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
 import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
@@ -117,24 +118,26 @@ fun BoardCell(
 @MultiPreview
 @Composable
 private fun MatchCellPreview() {
-    Column {
-        BoardCell(
-            entity = CellUiEntity(
-                id = 0,
-                imageRes = R.drawable.cross,
-            ),
-            cellSize = 120.dp,
-            isWinningCell = true,
-            onClick = {},
-        )
-        BoardCell(
-            entity = CellUiEntity(
-                id = 1,
-                imageRes = R.drawable.zero,
-            ),
-            cellSize = 120.dp,
-            isWinningCell = false,
-            onClick = {},
-        )
+    TicTacTrickTheme {
+        Column {
+            BoardCell(
+                entity = CellUiEntity(
+                    id = 0,
+                    imageRes = R.drawable.cross,
+                ),
+                cellSize = 120.dp,
+                isWinningCell = true,
+                onClick = {},
+            )
+            BoardCell(
+                entity = CellUiEntity(
+                    id = 1,
+                    imageRes = R.drawable.zero,
+                ),
+                cellSize = 120.dp,
+                isWinningCell = false,
+                onClick = {},
+            )
+        }
     }
 }

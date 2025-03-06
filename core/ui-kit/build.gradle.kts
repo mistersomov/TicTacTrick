@@ -5,8 +5,14 @@ plugins {
 }
 
 android {
-    namespace = "com.mistersomov.tictactrick.presentation"
+    namespace = "com.mistersomov.core.ui_kit"
     compileSdk = 35
+
+    defaultConfig {
+        minSdk = 28
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -18,16 +24,9 @@ android {
     buildFeatures {
         compose = true
     }
-    tasks.withType<Test> {
-        useJUnitPlatform()
-        jvmArgs("-XX:+EnableDynamicAgentLoading")
-    }
 }
 
 dependencies {
-    implementation(project(":domain"))
-
-    compileOnly(project(":core:ui-kit"))
 
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
@@ -37,18 +36,4 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.viewModelCompose)
-
-    testImplementation(libs.junit)
-    testImplementation(libs.junit.api)
-    testImplementation(libs.junit.params)
-    testImplementation(libs.mockk)
-    testImplementation(kotlin("test"))
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.assertj.core)
-    testImplementation(libs.turbine)
-
-    testRuntimeOnly(libs.junit.engine)
-
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }

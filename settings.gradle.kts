@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "TicTacTrick"
 include(
     ":app",
+    ":core:ui-kit",
     ":domain",
     ":presentation",
 )
