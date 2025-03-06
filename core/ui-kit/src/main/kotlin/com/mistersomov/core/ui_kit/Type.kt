@@ -1,4 +1,4 @@
-package com.mistersomov.tictactrick.ui.theme
+package com.mistersomov.core.ui_kit
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

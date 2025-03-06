@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.mistersomov.core.ui_kit.TicTacTrickTheme
 import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.extension.PreviewPhone
 
@@ -86,5 +87,7 @@ private fun DialogButton(
 @PreviewPhone
 @Composable
 private fun GameDialogPreview() {
-    GameDialog("Victory!")
+    TicTacTrickTheme {
+        GameDialog("Victory!")
+    }
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mistersomov.core.ui_kit.TicTacTrickTheme
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.common.GameDialog
@@ -120,5 +121,7 @@ fun MatchScreen(viewModel: MatchViewModel = viewModel(factory = MatchViewModel.F
 @MultiPreview
 @Composable
 private fun MatchScreenPreview() {
-    MatchScreen()
+    TicTacTrickTheme {
+        MatchScreen()
+    }
 }

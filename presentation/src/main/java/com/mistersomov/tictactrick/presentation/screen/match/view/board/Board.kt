@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
+import com.mistersomov.core.ui_kit.TicTacTrickTheme
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Victory
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent
@@ -103,5 +104,7 @@ private fun BoardPreview() {
             }
         }
     )
-    Board(viewState) { }
+    TicTacTrickTheme {
+        Board(viewState) { }
+    }
 }

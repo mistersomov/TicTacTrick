@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui-kit"))
     implementation(project(":domain"))
     implementation(project(":presentation"))
 
