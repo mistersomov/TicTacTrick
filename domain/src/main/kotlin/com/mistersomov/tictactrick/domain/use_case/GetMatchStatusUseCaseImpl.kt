@@ -9,8 +9,9 @@ import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
+import javax.inject.Inject
 
-class GetMatchStatusUseCaseImpl : GetMatchStatusUseCase {
+class GetMatchStatusUseCaseImpl @Inject constructor(): GetMatchStatusUseCase {
 
     override operator fun invoke(
         cells: List<Cell>,

@@ -10,8 +10,9 @@ import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutato
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.ApplyTrickyCard
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.Move
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.StartMatch
+import javax.inject.Inject
 
-class MatchStateMutatorImpl : MatchStateMutator {
+class MatchStateMutatorImpl @Inject constructor(): MatchStateMutator {
 
     override fun mutate(currentState: State, event: MatchMutatorEvent): State =
         when (event) {
