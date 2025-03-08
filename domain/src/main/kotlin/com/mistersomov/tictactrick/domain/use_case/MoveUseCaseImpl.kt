@@ -4,8 +4,9 @@ import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
+import javax.inject.Inject
 
-class MoveUseCaseImpl : MoveUseCase {
+class MoveUseCaseImpl @Inject constructor(): MoveUseCase {
 
     override operator fun invoke(
         cells: List<Cell>,

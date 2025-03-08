@@ -8,8 +8,9 @@ import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectab
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Blaze
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
+import javax.inject.Inject
 
-class ApplyTrickyCardUseCaseImpl : ApplyTrickyCardUseCase {
+class ApplyTrickyCardUseCaseImpl @Inject constructor(): ApplyTrickyCardUseCase {
 
     override operator fun invoke(cells: List<Cell>, card: TrickyCard): List<Cell> =
         when (card) {

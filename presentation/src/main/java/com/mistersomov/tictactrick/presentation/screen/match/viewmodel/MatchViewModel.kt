@@ -1,10 +1,7 @@
 package com.mistersomov.tictactrick.presentation.screen.match.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
 import com.mistersomov.tictactrick.domain.entity.board.BoardMode
 import com.mistersomov.tictactrick.domain.entity.board.Cell
@@ -16,11 +13,8 @@ import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectab
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Blaze
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
 import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCase
-import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCaseImpl
 import com.mistersomov.tictactrick.domain.use_case.GetMatchStatusUseCase
-import com.mistersomov.tictactrick.domain.use_case.GetMatchStatusUseCaseImpl
 import com.mistersomov.tictactrick.domain.use_case.MoveUseCase
-import com.mistersomov.tictactrick.domain.use_case.MoveUseCaseImpl
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowDialog
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent
@@ -34,7 +28,7 @@ import com.mistersomov.tictactrick.presentation.screen.match.entity.board.toDoma
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutator
-import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutatorImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,12 +36,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MatchViewModel(
-    private val applyTrickyCardUseCase: ApplyTrickyCardUseCase = ApplyTrickyCardUseCaseImpl(),
-    private val getMatchStatusUseCase: GetMatchStatusUseCase = GetMatchStatusUseCaseImpl(),
-    private val moveUseCase: MoveUseCase = MoveUseCaseImpl(),
-    private val mutator: MatchStateMutator = MatchStateMutatorImpl(),
+@HiltViewModel
+class MatchViewModel @Inject constructor(
+    private val applyTrickyCardUseCase: ApplyTrickyCardUseCase,
+    private val getMatchStatusUseCase: GetMatchStatusUseCase,
+    private val moveUseCase: MoveUseCase,
+    private val mutator: MatchStateMutator,
 ) : ViewModel() {
 
     private val _effect: MutableSharedFlow<Effect> = MutableSharedFlow()
@@ -58,14 +54,8 @@ class MatchViewModel(
     private val _viewState: MutableStateFlow<State> = MutableStateFlow(State())
     val viewState: StateFlow<State> by lazy { _viewState.asStateFlow() }
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                MatchViewModel()
-            }
-        }
-
-        private const val MULTIPLE_SELECT = 2
+    private companion object {
+         const val MULTIPLE_SELECT = 2
     }
 
     init {

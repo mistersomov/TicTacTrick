@@ -6,7 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.mistersomov.core.ui_kit.TicTacTrickTheme
 import com.mistersomov.tictactrick.presentation.screen.match.MatchScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TicTacTrickActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

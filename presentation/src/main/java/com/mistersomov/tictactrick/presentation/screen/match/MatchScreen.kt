@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.mistersomov.core.ui_kit.TicTacTrickTheme
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.presentation.R
@@ -40,7 +40,7 @@ import com.mistersomov.tictactrick.presentation.screen.match.viewmodel.MatchView
 import kotlinx.coroutines.delay
 
 @Composable
-fun MatchScreen(viewModel: MatchViewModel = viewModel(factory = MatchViewModel.Factory)) {
+fun MatchScreen(viewModel: MatchViewModel = hiltViewModel()) {
     val viewState by viewModel.viewState.collectAsState()
     val sendIntent by remember { mutableStateOf(viewModel::sendIntent) }
 
