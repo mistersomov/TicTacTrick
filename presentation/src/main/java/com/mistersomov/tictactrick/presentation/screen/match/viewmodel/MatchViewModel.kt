@@ -14,6 +14,7 @@ import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectab
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
 import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCase
 import com.mistersomov.tictactrick.domain.use_case.GetMatchStatusUseCase
+import com.mistersomov.tictactrick.domain.use_case.GetRandomTrickyCardUseCase
 import com.mistersomov.tictactrick.domain.use_case.MoveUseCase
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowDialog
@@ -42,6 +43,7 @@ import javax.inject.Inject
 class MatchViewModel @Inject constructor(
     private val applyTrickyCardUseCase: ApplyTrickyCardUseCase,
     private val getMatchStatusUseCase: GetMatchStatusUseCase,
+    private val getRandomTrickyCardUseCase: GetRandomTrickyCardUseCase,
     private val moveUseCase: MoveUseCase,
     private val mutator: MatchStateMutator,
 ) : ViewModel() {
@@ -89,12 +91,13 @@ class MatchViewModel @Inject constructor(
     }
 
     private fun startGame() {
+        val trickyCards = getRandomTrickyCardUseCase()
         setState {
             mutator.mutate(
                 currentState = viewState.value,
                 event = MatchMutatorEvent.StartMatch(
                     mode = BoardMode.FOUR, // TODO Прокинуть через аргумиенты
-                    trickyCards = listOf(Freezing(), Blaze()), // TODO Добавить рандомайзер карт
+                    trickyCards = trickyCards,
                 ),
             )
         }
