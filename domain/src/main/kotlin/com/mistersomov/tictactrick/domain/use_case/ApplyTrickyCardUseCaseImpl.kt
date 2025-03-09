@@ -6,8 +6,6 @@ import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Global.Harmony
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.DualSelectable.Tornado
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable
-import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Blaze
-import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
 import javax.inject.Inject
 
 class ApplyTrickyCardUseCaseImpl @Inject constructor(): ApplyTrickyCardUseCase {
@@ -21,15 +19,12 @@ class ApplyTrickyCardUseCaseImpl @Inject constructor(): ApplyTrickyCardUseCase {
 
     private fun applySingleSelectable(cells: List<Cell>, card: SingleSelectable): List<Cell> {
         val cell: Cell? = cells
-            .filter { !it.isFrozen && !it.isBlazed && it.type == EMPTY }
+            .filter { it.trickyCard == null && it.type == EMPTY }
             .firstOrNull { it.id == card.sourceId }
 
         return cells.map {
             if (it.id == cell?.id) {
-                it.copy(
-                    isFrozen = card is Freezing,
-                    isBlazed = card is Blaze,
-                )
+                it.copy(trickyCard = card)
             } else {
                 it
             }
@@ -53,6 +48,6 @@ class ApplyTrickyCardUseCaseImpl @Inject constructor(): ApplyTrickyCardUseCase {
         }
     }
 
-    private fun applyHarmony(cells: List<Cell>): List<Cell> = cells.map { it.copy(isFrozen = false) }
+    private fun applyHarmony(cells: List<Cell>): List<Cell> = cells.map { it.copy(trickyCard = null) }
 
 }

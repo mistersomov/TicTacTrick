@@ -13,7 +13,7 @@ class MoveUseCaseImpl @Inject constructor(): MoveUseCase {
         index: Int,
         isCrossMove: Boolean,
     ): List<Cell> {
-        if (cells[index].type != EMPTY || cells[index].isFrozen || cells[index].isBlazed) {
+        if (cells[index].type != EMPTY || cells[index].trickyCard != null) {
             return cells
         }
 
