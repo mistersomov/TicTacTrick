@@ -25,8 +25,8 @@ import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Inten
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.StartGame
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.State
 import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
-import com.mistersomov.tictactrick.presentation.screen.match.entity.board.toDomain
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
+import com.mistersomov.tictactrick.presentation.screen.match.mapper.toDomain
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutator
 import dagger.hilt.android.lifecycle.HiltViewModel

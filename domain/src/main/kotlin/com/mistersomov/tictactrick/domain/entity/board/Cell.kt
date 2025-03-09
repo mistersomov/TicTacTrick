@@ -1,11 +1,10 @@
 package com.mistersomov.tictactrick.domain.entity.board
 
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard
 
 data class Cell(
     val id: Int,
     val type: CellType = EMPTY,
-    val isRevealed: Boolean = false,
-    val isFrozen: Boolean = false,
-    val isBlazed: Boolean = false,
+    val trickyCard: TrickyCard? = null,
 )

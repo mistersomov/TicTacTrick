@@ -4,8 +4,8 @@ import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
 import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.State
-import com.mistersomov.tictactrick.presentation.screen.match.entity.board.toUi
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.toUi
+import com.mistersomov.tictactrick.presentation.screen.match.mapper.toUi
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.ActivateTrickyCard
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.ApplyTrickyCard
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.Move
@@ -19,7 +19,7 @@ class MatchStateMutatorImpl @Inject constructor(): MatchStateMutator {
             is StartMatch -> {
                 val size = event.mode.value * event.mode.value
                 State(
-                    cells = List(size) { Cell(id = it).toUi() },
+                    cells = List(size) { Cell(id = it).toUi(trickyCard = null) },
                     boardMode = event.mode,
                     trickyCards = event.trickyCards.map { it.toUi() },
                 )
@@ -58,7 +58,7 @@ class MatchStateMutatorImpl @Inject constructor(): MatchStateMutator {
         updatedCells: List<Cell>,
         matchStatus: MatchStatus,
     ) = copy(
-        cells = updatedCells.map { it.toUi() },
+        cells = updatedCells.map { cell -> cell.toUi(trickyCard = cell.trickyCard) },
         matchStatus = matchStatus,
         isCrossMove = !isCrossMove,
         gameOver = matchStatus != Continue,

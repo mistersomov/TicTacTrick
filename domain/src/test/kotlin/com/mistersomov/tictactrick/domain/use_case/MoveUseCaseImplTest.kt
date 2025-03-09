@@ -4,6 +4,8 @@ import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Blaze
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import kotlin.test.assertEquals
@@ -48,7 +50,7 @@ internal class MoveUseCaseImplTest {
                 Cell(id = 0, type = CROSS),
                 Cell(id = 1, type = EMPTY),
                 Cell(id = 2, type = ZERO),
-                Cell(id = 3, type = ZERO, isFrozen = true),
+                Cell(id = 3, type = ZERO, trickyCard = Freezing()),
                 Cell(id = 4, type = CROSS),
                 Cell(id = 5, type = ZERO),
                 Cell(id = 6, type = CROSS),
@@ -61,7 +63,7 @@ internal class MoveUseCaseImplTest {
                 Cell(id = 0, type = CROSS),
                 Cell(id = 1, type = EMPTY),
                 Cell(id = 2, type = ZERO),
-                Cell(id = 3, type = ZERO, isFrozen = true),
+                Cell(id = 3, type = ZERO, trickyCard = Freezing()),
                 Cell(id = 4, type = CROSS),
                 Cell(id = 5, type = ZERO),
                 Cell(id = 6, type = CROSS),
@@ -74,7 +76,7 @@ internal class MoveUseCaseImplTest {
                 Cell(id = 0, type = CROSS),
                 Cell(id = 1, type = EMPTY),
                 Cell(id = 2, type = ZERO),
-                Cell(id = 3, type = ZERO, isBlazed = true),
+                Cell(id = 3, type = ZERO, trickyCard = Blaze()),
                 Cell(id = 4, type = CROSS),
                 Cell(id = 5, type = ZERO),
                 Cell(id = 6, type = CROSS),
@@ -87,7 +89,7 @@ internal class MoveUseCaseImplTest {
                 Cell(id = 0, type = CROSS),
                 Cell(id = 1, type = EMPTY),
                 Cell(id = 2, type = ZERO),
-                Cell(id = 3, type = ZERO, isBlazed = true),
+                Cell(id = 3, type = ZERO, trickyCard = Blaze()),
                 Cell(id = 4, type = CROSS),
                 Cell(id = 5, type = ZERO),
                 Cell(id = 6, type = CROSS),

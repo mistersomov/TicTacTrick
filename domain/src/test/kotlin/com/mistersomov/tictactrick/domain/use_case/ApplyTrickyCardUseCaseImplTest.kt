@@ -8,206 +8,116 @@ import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Global.H
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.DualSelectable.Tornado
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Blaze
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
-import io.mockk.every
-import io.mockk.mockk
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class ApplyTrickyCardUseCaseImplTest {
-    private val applyTrickyCardUseCase = ApplyTrickyCardUseCaseImpl()
+    private val useCase = ApplyTrickyCardUseCaseImpl()
 
-    @Nested
-    inner class SingleSelectable {
+    @Test
+    fun `invoke() - Freezing on empty cell`() {
+        val cells = listOf(
+            Cell(0, EMPTY),
+            Cell(1, CROSS),
+            Cell(2, EMPTY),
+        )
+        val card = Freezing(sourceId = 2)
 
-        @Test
-        fun `invoke() - Freezing and not empty field`() {
-            // mock
-            val cells: List<Cell> = listOf(
-                Cell(id = 0, type = ZERO),
-                Cell(id = 1, type = CROSS),
-                Cell(id = 2, type = EMPTY),
-                Cell(id = 3, type = EMPTY),
-                Cell(id = 4, type = CROSS),
-                Cell(id = 5, type = ZERO),
-            )
-            val freezingCard = Freezing(sourceId = 1)
-            val expected: List<Cell> = listOf(
-                Cell(id = 0, type = ZERO),
-                Cell(id = 1, type = CROSS),
-                Cell(id = 2, type = EMPTY),
-                Cell(id = 3, type = EMPTY),
-                Cell(id = 4, type = CROSS),
-                Cell(id = 5, type = ZERO),
-            )
+        val expected = listOf(
+            Cell(0, EMPTY),
+            Cell(1, CROSS),
+            Cell(2, EMPTY, trickyCard = Freezing(2)),
+        )
 
-            // action
-            val action = applyTrickyCardUseCase(cells = cells, card = freezingCard)
+        val action = useCase(cells, card)
 
-
-            // assert
-            assertEquals(expected, action)
-        }
-
-        @Test
-        fun `invoke() - Freezing and locked field`() {
-            // mock
-            val cells: List<Cell> = listOf(
-                Cell(id = 0, type = ZERO),
-                Cell(id = 1, type = CROSS),
-                Cell(id = 2, type = EMPTY, isFrozen = true),
-                Cell(id = 3, type = EMPTY),
-                Cell(id = 4, type = CROSS),
-                Cell(id = 5, type = ZERO),
-            )
-            val freezing = Freezing(sourceId = 2)
-            val expected: List<Cell> = listOf(
-                Cell(id = 0, type = ZERO),
-                Cell(id = 1, type = CROSS),
-                Cell(
-                    id = 2,
-                    type = EMPTY,
-                    isFrozen = true,
-                ),
-                Cell(id = 3, type = EMPTY),
-                Cell(id = 4, type = CROSS),
-                Cell(id = 5, type = ZERO),
-            )
-
-            // action
-            val action = applyTrickyCardUseCase(cells = cells, card = freezing)
-
-
-            // assert
-            assertEquals(expected, action)
-        }
-
-        @Test
-        fun `invoke() - Freezing and empty field`() {
-            // mock
-            val cells: List<Cell> = listOf(
-                Cell(id = 0, type = ZERO),
-                Cell(id = 1, type = CROSS),
-                Cell(id = 2, type = EMPTY),
-                Cell(id = 3, type = EMPTY),
-                Cell(id = 4, type = CROSS),
-                Cell(id = 5, type = ZERO),
-            )
-            val freezing = Freezing(sourceId = 2)
-            val expected: List<Cell> = listOf(
-                Cell(id = 0, type = ZERO),
-                Cell(id = 1, type = CROSS),
-                Cell(
-                    id = 2,
-                    type = EMPTY,
-                    isFrozen = true,
-                ),
-                Cell(id = 3, type = EMPTY),
-                Cell(id = 4, type = CROSS),
-                Cell(id = 5, type = ZERO),
-            )
-
-            // action
-            val action = applyTrickyCardUseCase(cells = cells, card = freezing)
-
-
-            // assert
-            assertEquals(expected, action)
-        }
-
-        @Test
-        fun `invoke() - Blaze and empty field`() {
-            // mock
-            val cells: List<Cell> = listOf(
-                Cell(id = 0, type = ZERO),
-                Cell(id = 1, type = CROSS),
-                Cell(id = 2, type = EMPTY),
-                Cell(id = 3, type = EMPTY),
-                Cell(id = 4, type = CROSS),
-                Cell(id = 5, type = ZERO),
-            )
-            val expected: List<Cell> = listOf(
-                Cell(id = 0, type = ZERO),
-                Cell(id = 1, type = CROSS),
-                Cell(
-                    id = 2,
-                    type = EMPTY,
-                    isBlazed = true,
-                ),
-                Cell(id = 3, type = EMPTY),
-                Cell(id = 4, type = CROSS),
-                Cell(id = 5, type = ZERO),
-            )
-
-            // action
-            val action = applyTrickyCardUseCase(cells = cells, card = Blaze(sourceId = 2))
-
-
-            // assert
-            assertEquals(expected, action)
-        }
-    }
-
-    @Nested
-    inner class Tornado {
-
-        @Test
-        fun `invoke() - Not found indices`() {
-            // mock
-            val cells: List<Cell> = listOf(
-                Cell(id = 0),
-                Cell(id = 5),
-            )
-            val tornado =
-                Tornado(sourceId = -1, targetId = 100)
-            val expected: List<Cell> = listOf(
-                Cell(id = 0),
-                Cell(id = 5),
-            )
-
-            // action
-            val action = applyTrickyCardUseCase(cells = cells, card = tornado)
-
-            // assert
-            assertEquals(expected, action)
-        }
-
-        @Test
-        fun `invoke() - Found indices`() {
-            // mock
-            val cells: List<Cell> = listOf(
-                Cell(id = 0),
-                Cell(id = 1, type = CROSS),
-                Cell(id = 2, type = ZERO),
-            )
-            val tornado = Tornado(sourceId = 1, targetId = 2)
-            val expected: List<Cell> = listOf(
-                Cell(id = 0),
-                Cell(id = 1, type = ZERO),
-                Cell(id = 2, type = CROSS),
-            )
-
-            // action
-            val action = applyTrickyCardUseCase(cells = cells, card = tornado)
-
-            // assert
-            assertEquals(expected, action)
-        }
+        assertEquals(expected, action)
     }
 
     @Test
-    fun `invoke() - Apply Harmony and unlocked fields`() {
-        // mock
-        val cell1: Cell = mockk(relaxed = true) { every { isFrozen } returns true }
-        val cell2: Cell = mockk(relaxed = true) { every { isFrozen } returns true }
-        val cell3: Cell = mockk(relaxed = true) { every { isFrozen } returns false }
-        val cells: List<Cell> = listOf(cell1, cell2, cell3)
+    fun `invoke() - Freezing on non-empty cell should do nothing`() {
+        val cells = listOf(
+            Cell(0, EMPTY),
+            Cell(1, CROSS),
+            Cell(2, ZERO),
+        )
+        val card = Freezing(sourceId = 2)
 
-        // action
-        val action = applyTrickyCardUseCase(cells, Harmony)
+        val action = useCase(cells, card)
 
-        // assert
-        assertThat(action.any { it.isFrozen }).isFalse()
+        assertEquals(cells, action)
+    }
+
+    @Test
+    fun `invoke() - Blaze on empty cell`() {
+        val cells = listOf(
+            Cell(0, EMPTY),
+            Cell(1, CROSS),
+            Cell(2, EMPTY),
+        )
+        val card = Blaze(sourceId = 2)
+
+        val expected = listOf(
+            Cell(0, EMPTY),
+            Cell(1, CROSS),
+            Cell(2, EMPTY, trickyCard = Blaze(2)),
+        )
+
+        val action = useCase(cells, card)
+
+        assertEquals(expected, action)
+    }
+
+    @Test
+    fun `invoke() - Tornado swaps two existing cells`() {
+        val cells = listOf(
+            Cell(0, EMPTY),
+            Cell(1, CROSS),
+            Cell(2, ZERO),
+        )
+        val card = Tornado(sourceId = 1, targetId = 2)
+
+        val expected = listOf(
+            Cell(0, EMPTY),
+            Cell(1, ZERO),
+            Cell(2, CROSS),
+        )
+
+        val action = useCase(cells, card)
+
+        assertEquals(expected, action)
+    }
+
+    @Test
+    fun `invoke() - Tornado with invalid indices does nothing`() {
+        val cells = listOf(
+            Cell(0, EMPTY),
+            Cell(1, CROSS),
+            Cell(2, ZERO),
+        )
+        val card = Tornado(sourceId = 3, targetId = 4)
+
+        val action = useCase(cells, card)
+
+        assertEquals(cells, action)
+    }
+
+    @Test
+    fun `invoke() - Harmony removes all tricky cards`() {
+        val cells = listOf(
+            Cell(0, EMPTY, trickyCard = Blaze(0)),
+            Cell(1, CROSS, trickyCard = Freezing(1)),
+            Cell(2, ZERO, trickyCard = Tornado(1, 2)),
+        )
+
+        val expected = listOf(
+            Cell(0, EMPTY, trickyCard = null),
+            Cell(1, CROSS, trickyCard = null),
+            Cell(2, ZERO, trickyCard = null),
+        )
+
+        val action = useCase(cells, Harmony)
+
+        assertEquals(expected, action)
     }
 }
