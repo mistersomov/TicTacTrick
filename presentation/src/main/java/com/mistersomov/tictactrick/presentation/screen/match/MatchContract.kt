@@ -22,7 +22,6 @@ interface MatchContract {
         val boardMode: BoardMode = FOUR,
         val matchStatus: MatchStatus = Continue,
         val isCrossMove: Boolean = true,
-        val gameOver: Boolean = false,
         val trickyCards: List<TrickyCardUiEntity> = emptyList(),
         val trickyCardSelected: TrickyCardUiEntity? = null,
     )
