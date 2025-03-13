@@ -61,6 +61,7 @@ class MatchViewModelTest {
         val cell: CellUiEntity = mockk(relaxed = true) {
             every { id } returns 0
             every { isRevealed } returns false
+            every { lockedRes } returns null
         }
 
         every { moveUseCase(any(), any(), any()) } returns listOf(mockk())
@@ -72,6 +73,26 @@ class MatchViewModelTest {
 
         // verify
         verify {
+            moveUseCase(any(), any(), any())
+            getMatchStatusUseCase(any(), any())
+            mutator.mutate(any(), any())
+        }
+    }
+
+    @Test
+    fun `sendIntent() - Move skip change moving`() = runTest {
+        // mock
+        val cell: CellUiEntity = mockk(relaxed = true) {
+            every { id } returns 0
+            every { isRevealed } returns false
+            every { lockedRes } returns 123
+        }
+
+        // action
+        viewModel.sendIntent(Intent.Move(cell))
+
+        // verify
+        verify(exactly = 0) {
             moveUseCase(any(), any(), any())
             getMatchStatusUseCase(any(), any())
             mutator.mutate(any(), any())
@@ -140,6 +161,7 @@ class MatchViewModelTest {
         val cell: CellUiEntity = mockk(relaxed = true) {
             every { id } returns 0
             every { isRevealed } returns false
+            every { lockedRes } returns null
         }
 
         every { moveUseCase(cells = any(), index = 0, isCrossMove = true) } returns listOf(mockk())

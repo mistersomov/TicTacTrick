@@ -107,7 +107,7 @@ class MatchViewModel @Inject constructor(
         with(viewState.value) {
             when {
                 trickyCardSelected?.card is Selectable -> selectCell(cell)
-                !cell.isRevealed && matchStatus == Continue -> {
+                !cell.isRevealed && cell.lockedRes == null && matchStatus == Continue -> {
                     val updatedCells: List<Cell> = moveUseCase(
                         cells = cells.map { it.toDomain() },
                         index = cell.id,
