@@ -28,7 +28,6 @@ internal class MatchStateMutatorImplTest {
             cells = listOf(CellUiEntity(0), CellUiEntity(1)),
             isCrossMove = false,
             trickyCards = listOf(mockk()),
-            gameOver = true,
         )
 
         // action
@@ -44,7 +43,7 @@ internal class MatchStateMutatorImplTest {
         assertThat(action.cells.size).isEqualTo(16)
         assertThat(action.isCrossMove).isTrue()
         assertThat(action.trickyCards.size).isEqualTo(2)
-        assertThat(action.gameOver).isFalse()
+        assertThat(action.matchStatus).isEqualTo(Continue)
     }
 
     @Test

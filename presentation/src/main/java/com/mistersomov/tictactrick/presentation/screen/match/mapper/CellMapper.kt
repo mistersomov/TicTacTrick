@@ -7,6 +7,8 @@ import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Blaze
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
 import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
 
@@ -17,8 +19,8 @@ internal fun Cell.toUi(trickyCard: TrickyCard?): CellUiEntity {
         EMPTY -> null to null
     }
     val (card: TrickyCard?, @DrawableRes lockedRes) = when (trickyCard) {
-        is TrickyCard.Selectable.SingleSelectable.Freezing -> trickyCard to R.drawable.ice
-        is TrickyCard.Selectable.SingleSelectable.Blaze -> trickyCard to R.drawable.lava
+        is Freezing -> trickyCard to R.drawable.ice
+        is Blaze -> trickyCard to R.drawable.lava
         else -> null to null
     }
 

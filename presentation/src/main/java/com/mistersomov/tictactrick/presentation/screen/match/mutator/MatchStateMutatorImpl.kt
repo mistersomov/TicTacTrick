@@ -1,7 +1,6 @@
 package com.mistersomov.tictactrick.presentation.screen.match.mutator
 
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
-import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
 import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.State
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.toUi
@@ -61,6 +60,5 @@ class MatchStateMutatorImpl @Inject constructor(): MatchStateMutator {
         cells = updatedCells.map { cell -> cell.toUi(trickyCard = cell.trickyCard) },
         matchStatus = matchStatus,
         isCrossMove = !isCrossMove,
-        gameOver = matchStatus != Continue,
     )
 }
