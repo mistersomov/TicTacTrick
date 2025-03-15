@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mistersomov.core.ui_kit"
+    namespace = "com.mistersomov.tictactrick.core.ui_kit"
     compileSdk = 35
 
     defaultConfig {
