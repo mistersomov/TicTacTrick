@@ -28,6 +28,8 @@ import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUi
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
 import com.mistersomov.tictactrick.presentation.screen.match.mapper.toDomain
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent
+import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.ApplyTrickyCard
+import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.StartMatch
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
