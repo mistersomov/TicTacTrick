@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mistersomov.core.ui_kit.TicTacTrickTheme
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.presentation.R
+import com.mistersomov.tictactrick.presentation.common.DialogButton
 import com.mistersomov.tictactrick.presentation.common.GameDialog
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowDialog
@@ -45,6 +46,10 @@ fun MatchScreen(viewModel: MatchViewModel = hiltViewModel()) {
     val sendIntent by remember { mutableStateOf(viewModel::sendIntent) }
 
     var showDialog by remember { mutableStateOf(false) }
+
+//    BackHandler {
+//        viewModel.sendIntent(OnBackClicked)
+//    }
 
     LaunchedEffect(Unit) { sendIntent(StartGame) }
     LaunchedEffect(viewModel.effect) {
@@ -68,53 +73,60 @@ fun MatchScreen(viewModel: MatchViewModel = hiltViewModel()) {
         )
     }
 
-    Scaffold { innerPadding ->
-        Column(
+    Column(modifier = Modifier.fillMaxSize()) {
+        Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+                .fillMaxWidth()
+                .padding(start = 24.dp, top = 32.dp, end = 24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, top = 32.dp, end = 24.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
+                    .border(
+                        width = 1.dp,
+                        color = if (viewState.isCrossMove) Color.Green else Color.Black,
+                        shape = RoundedCornerShape(8.dp),
+                    ),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Column(
-                    modifier = Modifier.border(1.dp, Color.Black),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(
-                        modifier = Modifier.size(72.dp),
-                        painter = painterResource(R.drawable.cross),
-                        contentDescription = stringResource(R.string.cross),
-                    )
-                    Text(text = "Player 1")
-                }
-                Column(
-                    modifier = Modifier.border(1.dp, Color.Black),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(
-                        modifier = Modifier.size(72.dp),
-                        painter = painterResource(R.drawable.zero),
-                        contentDescription = stringResource(R.string.cross),
-                    )
-                    Text("Player 2")
-                }
+                Image(
+                    modifier = Modifier.size(72.dp),
+                    painter = painterResource(R.drawable.cross),
+                    contentDescription = stringResource(R.string.cross),
+                )
+                Text(text = "Player 1")
             }
-            Board(
-                viewState = viewState,
-                sendIntent = sendIntent,
-            )
-            TrickyCardGroup(
-                cards = viewState.trickyCards,
-                onCardClick = { sendIntent(ActivateTrickyCard(it)) }
-            )
+
+            DialogButton(R.drawable.ic_baseline_refresh_24) { sendIntent(Restart) }
+
+            Column(
+                modifier = Modifier
+                    .border(
+                        width = 1.dp,
+                        color = if (!viewState.isCrossMove) Color.Green else Color.Black,
+                        shape = RoundedCornerShape(8.dp),
+                    ),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Image(
+                    modifier = Modifier.size(72.dp),
+                    painter = painterResource(R.drawable.zero),
+                    contentDescription = stringResource(R.string.cross),
+                )
+                Text("Player 2")
+            }
         }
+        Board(
+            viewState = viewState,
+            sendIntent = sendIntent,
+        )
+        TrickyCardGroup(
+            cards = viewState.trickyCards,
+            onCardClick = { sendIntent(ActivateTrickyCard(it)) }
+        )
     }
 }
 
