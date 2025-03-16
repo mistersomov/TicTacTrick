@@ -64,7 +64,7 @@ fun GameDialog(
 }
 
 @Composable
-private fun DialogButton(
+fun DialogButton(
     @DrawableRes icon: Int,
     onClick: () -> Unit,
 ) {
