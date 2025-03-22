@@ -1,7 +1,5 @@
 package com.mistersomov.tictactrick.presentation.screen.match.mapper
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
@@ -13,12 +11,12 @@ import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
 
 internal fun Cell.toUi(trickyCard: TrickyCard?): CellUiEntity {
-    val (@DrawableRes imageRes: Int?, @StringRes description: Int?) = when (type) {
+    val (imageRes: Int?, description: Int?) = when (type) {
         CROSS -> R.drawable.cross to R.string.cross
         ZERO -> R.drawable.zero to R.string.zero
         EMPTY -> null to null
     }
-    val (card: TrickyCard?, @DrawableRes lockedRes) = when (trickyCard) {
+    val (card: TrickyCard?, lockedRes) = when (trickyCard) {
         is Freezing -> trickyCard to R.drawable.ice
         is Blaze -> trickyCard to R.drawable.lava
         else -> null to null

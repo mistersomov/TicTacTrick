@@ -3,7 +3,6 @@ package com.mistersomov.tictactrick.presentation.screen.match.mutator
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.State
-import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.toUi
 import com.mistersomov.tictactrick.presentation.screen.match.mapper.toUi
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.ActivateTrickyCard
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.ApplyTrickyCard
