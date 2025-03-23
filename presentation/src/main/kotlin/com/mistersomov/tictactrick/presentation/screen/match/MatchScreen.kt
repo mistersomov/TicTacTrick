@@ -32,10 +32,14 @@ import com.mistersomov.tictactrick.presentation.common.DialogButton
 import com.mistersomov.tictactrick.presentation.common.GameDialog
 import com.mistersomov.tictactrick.presentation.extension.MultiPreview
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowDialog
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowTrickyCardDetails
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.ActivateTrickyCard
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.OnTrickyCardClicked
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Restart
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.StartGame
+import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
 import com.mistersomov.tictactrick.presentation.screen.match.view.board.Board
+import com.mistersomov.tictactrick.presentation.screen.match.view.tricky_card.TrickyCardDetails
 import com.mistersomov.tictactrick.presentation.screen.match.view.tricky_card.TrickyCardGroup
 import com.mistersomov.tictactrick.presentation.screen.match.viewmodel.MatchViewModel
 import kotlinx.coroutines.delay
@@ -46,6 +50,7 @@ fun MatchScreen(viewModel: MatchViewModel = hiltViewModel()) {
     val sendIntent by remember { mutableStateOf(viewModel::sendIntent) }
 
     var showDialog by remember { mutableStateOf(false) }
+    var showTrickyCardDetails by remember { mutableStateOf<TrickyCardUiEntity?>(null) }
 
 //    BackHandler {
 //        viewModel.sendIntent(OnBackClicked)
@@ -59,6 +64,7 @@ fun MatchScreen(viewModel: MatchViewModel = hiltViewModel()) {
                     delay(1500)
                     showDialog = true
                 }
+                is ShowTrickyCardDetails -> showTrickyCardDetails = effect.trickyCard
             }
         }
     }
@@ -125,8 +131,12 @@ fun MatchScreen(viewModel: MatchViewModel = hiltViewModel()) {
         )
         TrickyCardGroup(
             cards = viewState.trickyCards,
-            onCardClick = { sendIntent(ActivateTrickyCard(it)) }
+            onCardClick = { sendIntent(OnTrickyCardClicked(it)) },
+            onCardDragEnd = { sendIntent(ActivateTrickyCard(it)) },
         )
+    }
+    showTrickyCardDetails?.let { card ->
+        TrickyCardDetails(card) { showTrickyCardDetails = null }
     }
 }
 

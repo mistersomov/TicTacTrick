@@ -10,6 +10,8 @@ data class TrickyCardUiEntity(
     val imageRes: Int,
     @StringRes
     val imageDescription: Int,
+    @StringRes
+    val description: Int,
     val card: TrickyCard,
     val isVisible: Boolean = true,
     val isEnabled: Boolean = true,

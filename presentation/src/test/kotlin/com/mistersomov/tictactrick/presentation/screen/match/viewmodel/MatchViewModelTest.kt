@@ -11,7 +11,9 @@ import com.mistersomov.tictactrick.domain.use_case.GetRandomTrickyCardUseCase
 import com.mistersomov.tictactrick.domain.use_case.MoveUseCase
 import com.mistersomov.tictactrick.presentation.TestDispatcherExtension
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowDialog
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowTrickyCardDetails
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.OnTrickyCardClicked
 import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutator
@@ -179,6 +181,18 @@ class MatchViewModelTest {
             moveUseCase(cells = any(), index = 0, isCrossMove = true)
             getMatchStatusUseCase(any(), any())
             mutator.mutate(any(), any())
+        }
+    }
+
+    @Test
+    fun handleTrickyCardClicked() = runTest {
+        // mock
+        val model: TrickyCardUiEntity = mockk(relaxed = true)
+
+        // action && assert
+        viewModel.effect.test {
+            viewModel.sendIntent(OnTrickyCardClicked(model))
+            assertEquals(ShowTrickyCardDetails(model), awaitItem())
         }
     }
 }

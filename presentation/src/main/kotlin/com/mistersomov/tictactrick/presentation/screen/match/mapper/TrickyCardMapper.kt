@@ -15,6 +15,7 @@ fun TrickyCard.toUi(): TrickyCardUiEntity =
             TrickyCardUiEntity(
                 imageRes = R.drawable.freeze,
                 imageDescription = R.string.tricky_card_freezing,
+                description = R.string.tricky_card_freezing_description,
                 card = this,
                 soundEffectRes = R.raw.ice,
             )
@@ -23,6 +24,7 @@ fun TrickyCard.toUi(): TrickyCardUiEntity =
             TrickyCardUiEntity(
                 imageRes = R.drawable.blaze,
                 imageDescription = R.string.tricky_card_blaze,
+                description = R.string.tricky_card_blaze_description,
                 card = this,
                 soundEffectRes = R.raw.blaze,
             )
@@ -31,6 +33,7 @@ fun TrickyCard.toUi(): TrickyCardUiEntity =
             TrickyCardUiEntity(
                 imageRes = R.drawable.tornado,
                 imageDescription = R.string.tricky_card_tornado,
+                description = R.string.tricky_card_tornado_description,
                 card = this,
                 soundEffectRes = R.raw.tornado,
             )
@@ -39,6 +42,7 @@ fun TrickyCard.toUi(): TrickyCardUiEntity =
             TrickyCardUiEntity(
                 imageRes = R.drawable.harmony,
                 imageDescription = R.string.tricky_card_harmony,
+                description = R.string.tricky_card_harmony_description,
                 card = this,
                 soundEffectRes = R.raw.harmony,
             )

@@ -18,9 +18,11 @@ import com.mistersomov.tictactrick.domain.use_case.GetRandomTrickyCardUseCase
 import com.mistersomov.tictactrick.domain.use_case.MoveUseCase
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowDialog
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowTrickyCardDetails
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.ActivateTrickyCard
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Move
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.OnTrickyCardClicked
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Restart
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.StartGame
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.State
@@ -28,8 +30,6 @@ import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUi
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
 import com.mistersomov.tictactrick.presentation.screen.match.mapper.toDomain
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent
-import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.ApplyTrickyCard
-import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchMutatorEvent.StartMatch
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -88,8 +88,13 @@ class MatchViewModel @Inject constructor(
         when (intent) {
             is StartGame, Restart -> startGame()
             is Move -> move(intent.cell)
+            is OnTrickyCardClicked -> handleTrickyCardClicked(intent.card)
             is ActivateTrickyCard -> activateTrickyCard(intent.card)
         }
+    }
+
+    private fun handleTrickyCardClicked(entity: TrickyCardUiEntity) {
+        setEffect { ShowTrickyCardDetails(entity) }
     }
 
     private fun startGame() {

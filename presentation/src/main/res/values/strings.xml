@@ -12,9 +12,16 @@
 
     <!-- Tricky Cards -->
     <string name="tricky_card_freezing">Freezing</string>
+    <string name="tricky_card_freezing_description">Freeze any cell and watch the flames fizzle out!
+    </string>
     <string name="tricky_card_blaze">Blaze</string>
+    <string name="tricky_card_blaze_description">Choose a cell and set it on fire.<br/>
+        Blaze will melt the ice and stump your opponent!
+    </string>
     <string name="tricky_card_tornado">Tornado</string>
+    <string name="tricky_card_tornado_description">Choose two cells and Tornado will swap them!</string>
     <string name="tricky_card_harmony">Harmony</string>
+    <string name="tricky_card_harmony_description">Clear all negative effects and take control of the game!</string>
 
     <!-- Game Dialog -->
     <string name="reset">Reset</string>

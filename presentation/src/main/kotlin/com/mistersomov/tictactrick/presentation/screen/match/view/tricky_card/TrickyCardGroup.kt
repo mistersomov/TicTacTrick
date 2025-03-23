@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
@@ -17,6 +16,7 @@ import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.
 internal fun TrickyCardGroup(
     cards: List<TrickyCardUiEntity>,
     onCardClick: (TrickyCardUiEntity) -> Unit,
+    onCardDragEnd: (TrickyCardUiEntity) -> Unit,
 ) {
     val density = LocalDensity.current
 
@@ -47,9 +47,9 @@ internal fun TrickyCardGroup(
                 },
             ) {
                 TrickyCard(
-                    modifier = Modifier.rotate(if (index % 2 == 0) -10f else 10f),
                     item = entity,
                     onClick = { onCardClick(entity) },
+                    onDragEnd = { onCardDragEnd(entity) },
                 )
             }
         }

@@ -3,6 +3,7 @@ package com.mistersomov.tictactrick.presentation.screen.match.mapper
 import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard
+import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
 import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
 import io.mockk.every
@@ -100,12 +101,12 @@ internal class CellMapperTest {
         val uiModel: CellUiEntity = mockk(relaxed = true) {
             every { id } returns 123
             every { imageRes } returns R.drawable.cross
-            every { trickyCard } returns TrickyCard.Selectable.SingleSelectable.Freezing()
+            every { trickyCard } returns Freezing()
         }
         val expected = Cell(
             id = 123,
             type = CellType.CROSS,
-            trickyCard = TrickyCard.Selectable.SingleSelectable.Freezing(),
+            trickyCard = Freezing(),
         )
 
         // action
