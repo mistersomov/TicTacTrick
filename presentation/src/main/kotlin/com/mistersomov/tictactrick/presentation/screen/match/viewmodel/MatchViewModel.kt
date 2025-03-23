@@ -50,6 +50,10 @@ class MatchViewModel @Inject constructor(
     private val mutator: MatchStateMutator,
 ) : ViewModel() {
 
+    private companion object {
+        const val MULTIPLE_SELECT = 2
+    }
+
     private val _effect: MutableSharedFlow<Effect> = MutableSharedFlow()
     val effect: Flow<Effect> = _effect
 
@@ -57,10 +61,6 @@ class MatchViewModel @Inject constructor(
 
     private val _viewState: MutableStateFlow<State> = MutableStateFlow(State())
     val viewState: StateFlow<State> by lazy { _viewState.asStateFlow() }
-
-    private companion object {
-         const val MULTIPLE_SELECT = 2
-    }
 
     init {
         viewModelScope.launch {
