@@ -19,6 +19,7 @@ internal class TrickyCardMapperTest {
             expected = TrickyCardUiEntity(
                 imageRes = R.drawable.freeze,
                 imageDescription = R.string.tricky_card_freezing,
+                description = R.string.tricky_card_freezing_description,
                 card = mockk(relaxed = true),
                 soundEffectRes = R.raw.ice,
             )
@@ -28,6 +29,7 @@ internal class TrickyCardMapperTest {
             expected = TrickyCardUiEntity(
                 imageRes = R.drawable.blaze,
                 imageDescription = R.string.tricky_card_blaze,
+                description = R.string.tricky_card_blaze_description,
                 card = mockk(relaxed = true),
                 soundEffectRes = R.raw.blaze,
             )
@@ -37,6 +39,7 @@ internal class TrickyCardMapperTest {
             expected = TrickyCardUiEntity(
                 imageRes = R.drawable.tornado,
                 imageDescription = R.string.tricky_card_tornado,
+                description = R.string.tricky_card_tornado_description,
                 card = mockk(relaxed = true),
                 soundEffectRes = R.raw.tornado,
             )
@@ -46,6 +49,7 @@ internal class TrickyCardMapperTest {
             expected = TrickyCardUiEntity(
                 imageRes = R.drawable.harmony,
                 imageDescription = R.string.tricky_card_harmony,
+                description = R.string.tricky_card_harmony_description,
                 card = mockk(relaxed = true),
                 soundEffectRes = R.raw.harmony,
             )

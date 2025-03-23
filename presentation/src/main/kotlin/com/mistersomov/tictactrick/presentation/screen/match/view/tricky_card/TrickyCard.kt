@@ -2,6 +2,7 @@ package com.mistersomov.tictactrick.presentation.screen.match.view.tricky_card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,6 +29,7 @@ internal fun TrickyCard(
     modifier: Modifier = Modifier,
     item: TrickyCardUiEntity,
     onClick: () -> Unit,
+    onDragEnd: () -> Unit,
 ) {
     var offsetPositionX by remember { mutableFloatStateOf(0f) }
     var offsetPositionY by remember { mutableFloatStateOf(0f) }
@@ -43,11 +45,16 @@ internal fun TrickyCard(
             .offset { IntOffset(offsetPositionX.toInt(), offsetPositionY.toInt()) }
             .pointerInput(Unit) {
                 if (item.isEnabled) {
+                    detectTapGestures(onTap = { onClick() })
+                }
+            }
+            .pointerInput(Unit) {
+                if (item.isEnabled) {
                     detectDragGestures(
                         onDragStart = { isCardSelected = true },
                         onDragEnd = {
                             isCardSelected = false
-                            onClick()
+                            onDragEnd()
                         },
                         onDrag = { _, dragAmount ->
                             offsetPositionX += dragAmount.x

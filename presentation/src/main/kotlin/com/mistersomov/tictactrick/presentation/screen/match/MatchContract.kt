@@ -13,6 +13,7 @@ interface MatchContract {
         data object StartGame : Intent
         data class Move(val cell: CellUiEntity): Intent
         data object Restart : Intent
+        data class OnTrickyCardClicked(val card: TrickyCardUiEntity) : Intent
         data class ActivateTrickyCard(val card: TrickyCardUiEntity) : Intent
     }
 
@@ -28,5 +29,6 @@ interface MatchContract {
 
     sealed interface Effect {
         data object ShowDialog : Effect
+        data class ShowTrickyCardDetails(val trickyCard: TrickyCardUiEntity) : Effect
     }
 }
