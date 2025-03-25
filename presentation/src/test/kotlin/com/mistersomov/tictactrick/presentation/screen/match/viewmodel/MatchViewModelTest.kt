@@ -42,7 +42,7 @@ class MatchViewModelTest {
             getMatchStatusUseCase = getMatchStatusUseCase,
             moveUseCase = moveUseCase,
             getRandomTrickyCardUseCase = getRandomTrickyCardUseCase,
-            mutator = mutator
+            mutator = mutator,
         )
     }
 
