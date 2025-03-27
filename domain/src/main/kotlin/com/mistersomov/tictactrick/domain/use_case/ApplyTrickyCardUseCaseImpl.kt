@@ -10,6 +10,10 @@ import javax.inject.Inject
 
 class ApplyTrickyCardUseCaseImpl @Inject constructor(): ApplyTrickyCardUseCase {
 
+    private companion object {
+        const val REMAINING_MOVES = 3
+    }
+
     override operator fun invoke(cells: List<Cell>, card: TrickyCard): List<Cell> =
         when (card) {
             is SingleSelectable-> applySingleSelectable(cells, card)
@@ -24,9 +28,12 @@ class ApplyTrickyCardUseCaseImpl @Inject constructor(): ApplyTrickyCardUseCase {
 
         return cells.map {
             if (it.id == cell?.id) {
-                it.copy(trickyCard = card)
+                it.copy(
+                    trickyCard = card,
+                    remainingMoves = REMAINING_MOVES,
+                )
             } else {
-                it
+                it.updateRemainingMoves()
             }
         }
     }
@@ -35,19 +42,33 @@ class ApplyTrickyCardUseCaseImpl @Inject constructor(): ApplyTrickyCardUseCase {
         val sourceCell: Cell? = cells.firstOrNull { it.id == tornado.sourceId }
         val targetCell: Cell? = cells.firstOrNull { it.id == tornado.targetId }
 
-        return if (sourceCell != null  && targetCell != null) {
-            cells.map {
+        return cells.map {
+            if (sourceCell != null  && targetCell != null) {
                 when (it.id) {
                     sourceCell.id -> it.copy(type = targetCell.type)
                     targetCell.id -> it.copy(type = sourceCell.type)
-                    else -> it
+                    else -> it.updateRemainingMoves()
                 }
+            } else  {
+                it.updateRemainingMoves()
             }
-        } else  {
-            cells
         }
     }
 
-    private fun applyHarmony(cells: List<Cell>): List<Cell> = cells.map { it.copy(trickyCard = null) }
+    private fun applyHarmony(cells: List<Cell>): List<Cell> = cells.map {
+        it.copy(
+            trickyCard = null,
+            remainingMoves = null,
+        )
+    }
+
+    private fun Cell.updateRemainingMoves(): Cell {
+        val remaining = remainingMoves?.minus(1)
+
+        return copy(
+            trickyCard = if (remaining == 0) null else trickyCard,
+            remainingMoves = if (remaining == 0) null else remaining,
+        )
+    }
 
 }

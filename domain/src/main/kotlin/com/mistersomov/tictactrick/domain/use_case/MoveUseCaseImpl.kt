@@ -20,11 +20,13 @@ class MoveUseCaseImpl @Inject constructor(): MoveUseCase {
         val cellType = if (isCrossMove) CROSS else ZERO
 
         return cells.mapIndexed { i, cell ->
-            if (i == index) {
-                cell.copy(type = cellType)
-            } else {
-                cell
-            }
+            val remaining = cell.remainingMoves?.minus(1)
+
+            cell.copy(
+                type = if (i == index) cellType else cell.type,
+                remainingMoves = if (remaining == 0) null else remaining,
+                trickyCard = if (remaining == 0) null else cell.trickyCard,
+            )
         }
     }
 }

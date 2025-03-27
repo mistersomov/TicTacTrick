@@ -6,6 +6,7 @@ import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Blaze
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable.SingleSelectable.Freezing
+import io.mockk.mockk
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import kotlin.test.assertEquals
@@ -147,6 +148,32 @@ internal class MoveUseCaseImplTest {
                 Cell(id = 6, type = CROSS),
                 Cell(id = 7, type = ZERO),
                 Cell(id = 8, type = CROSS),
+            ),
+        ),
+        UPDATE_REMAINING_MOVES(
+            cells = listOf(
+                Cell(id = 0, type = CROSS),
+                Cell(id = 1, type = EMPTY),
+                Cell(id = 2, type = ZERO),
+                Cell(id = 3, type = ZERO),
+                Cell(id = 4, type = CROSS),
+                Cell(id = 5, type = ZERO),
+                Cell(id = 6, type = CROSS, trickyCard = Freezing(6), remainingMoves = 2),
+                Cell(id = 7, type = EMPTY),
+                Cell(id = 8, type = CROSS, trickyCard = mockk(relaxed = true), remainingMoves = 1),
+            ),
+            index = 7,
+            isCrossMove = false,
+            expected = listOf(
+                Cell(id = 0, type = CROSS),
+                Cell(id = 1, type = EMPTY),
+                Cell(id = 2, type = ZERO),
+                Cell(id = 3, type = ZERO),
+                Cell(id = 4, type = CROSS),
+                Cell(id = 5, type = ZERO),
+                Cell(id = 6, type = CROSS, trickyCard = Freezing(6), remainingMoves = 1),
+                Cell(id = 7, type = ZERO),
+                Cell(id = 8, type = CROSS, trickyCard = null, remainingMoves = null),
             ),
         ),
     }

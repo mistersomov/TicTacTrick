@@ -25,6 +25,7 @@ internal class CellMapperTest {
             cell = mockk(relaxed = true) {
                 every { id } returns 0
                 every { type } returns CellType.EMPTY
+                every { remainingMoves } returns null
             },
             trickyCard = null,
             expected = CellUiEntity(
@@ -40,6 +41,7 @@ internal class CellMapperTest {
             cell = mockk(relaxed = true) {
                 every { id } returns 0
                 every { type } returns CellType.CROSS
+                every { remainingMoves } returns null
             },
             trickyCard = null,
             expected = CellUiEntity(
@@ -55,6 +57,7 @@ internal class CellMapperTest {
             cell = mockk(relaxed = true) {
                 every { id } returns 0
                 every { type } returns CellType.CROSS
+                every { remainingMoves } returns 3
             },
             trickyCard = TrickyCard.Selectable.SingleSelectable.Blaze(),
             expected = CellUiEntity(
@@ -64,12 +67,15 @@ internal class CellMapperTest {
                 isRevealed = true,
                 trickyCard = TrickyCard.Selectable.SingleSelectable.Blaze(),
                 lockedRes = R.drawable.lava,
+                lockedDescription = R.string.tricky_card_blaze,
+                remainingMoves = 3,
             ),
         ),
         O(
             cell = mockk(relaxed = true) {
                 every { id } returns 0
                 every { type } returns CellType.ZERO
+                every { remainingMoves } returns null
             },
             trickyCard = null,
             expected = CellUiEntity(
@@ -79,6 +85,7 @@ internal class CellMapperTest {
                 isRevealed = true,
                 trickyCard = null,
                 lockedRes = null,
+                remainingMoves = null,
             ),
         ),
     }
@@ -102,11 +109,13 @@ internal class CellMapperTest {
             every { id } returns 123
             every { imageRes } returns R.drawable.cross
             every { trickyCard } returns Freezing()
+            every { remainingMoves } returns 3
         }
         val expected = Cell(
             id = 123,
             type = CellType.CROSS,
             trickyCard = Freezing(),
+            remainingMoves = 3,
         )
 
         // action
