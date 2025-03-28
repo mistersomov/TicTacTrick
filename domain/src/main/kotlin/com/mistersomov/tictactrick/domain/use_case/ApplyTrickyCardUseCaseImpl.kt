@@ -11,7 +11,7 @@ import javax.inject.Inject
 class ApplyTrickyCardUseCaseImpl @Inject constructor(): ApplyTrickyCardUseCase {
 
     private companion object {
-        const val REMAINING_MOVES = 3
+        const val REMAINING_MOVES = 5
     }
 
     override operator fun invoke(cells: List<Cell>, card: TrickyCard): List<Cell> =
