@@ -212,6 +212,10 @@ class MatchViewModel @Inject constructor(
                     )
                 )
             }
+
+            if (matchStatus != Continue) {
+                setEffect { ShowDialog }
+            }
         }
     }
 
