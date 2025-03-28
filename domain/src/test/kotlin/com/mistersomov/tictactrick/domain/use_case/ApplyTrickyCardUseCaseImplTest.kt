@@ -31,7 +31,7 @@ internal class ApplyTrickyCardUseCaseImplTest {
                 id = 2,
                 type = EMPTY,
                 trickyCard = Freezing(2),
-                remainingMoves = 3,
+                remainingMoves = 5,
             ),
         )
 
@@ -69,7 +69,7 @@ internal class ApplyTrickyCardUseCaseImplTest {
                 id = 2,
                 type = EMPTY,
                 trickyCard = Freezing(2),
-                remainingMoves = 3,
+                remainingMoves = 5,
             ),
         )
 
@@ -113,7 +113,7 @@ internal class ApplyTrickyCardUseCaseImplTest {
                 id = 2,
                 type = EMPTY,
                 trickyCard = Blaze(2),
-                remainingMoves = 3,
+                remainingMoves = 5,
             ),
         )
 
