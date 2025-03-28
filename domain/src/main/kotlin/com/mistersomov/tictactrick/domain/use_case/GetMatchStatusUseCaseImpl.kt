@@ -25,7 +25,7 @@ class GetMatchStatusUseCaseImpl @Inject constructor(): GetMatchStatusUseCase {
 
         return when {
             winningCombination != null -> Victory(cells[winningCombination[0]].type, winningCombination)
-            cells.none { it.type == EMPTY } -> Draw
+            cells.none { it.type == EMPTY && it.trickyCard == null } -> Draw
             else -> Continue
         }
     }
