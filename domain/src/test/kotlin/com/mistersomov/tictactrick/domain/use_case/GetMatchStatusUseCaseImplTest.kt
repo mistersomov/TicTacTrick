@@ -9,6 +9,7 @@ import com.mistersomov.tictactrick.domain.entity.board.Cell
 import com.mistersomov.tictactrick.domain.entity.board.CellType.CROSS
 import com.mistersomov.tictactrick.domain.entity.board.CellType.EMPTY
 import com.mistersomov.tictactrick.domain.entity.board.CellType.ZERO
+import io.mockk.mockk
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import kotlin.test.assertEquals
@@ -299,7 +300,7 @@ internal class GetMatchStatusUseCaseImplTest {
                 Cell(id = 2, type = ZERO),
                 Cell(id = 3, type = ZERO),
                 Cell(id = 4, type = CROSS),
-                Cell(id = 5, type = CROSS),
+                Cell(id = 5, type = EMPTY, trickyCard = mockk(relaxed = true)),
                 Cell(id = 6, type = CROSS),
                 Cell(id = 7, type = ZERO),
                 Cell(id = 8, type = ZERO),
