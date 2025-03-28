@@ -16,4 +16,7 @@ data class CellUiEntity(
     val trickyCard: TrickyCard? = null,
     @DrawableRes
     val lockedRes: Int? = null,
+    @StringRes
+    val lockedDescription: Int? = null,
+    val remainingMoves: Int? = null,
 )

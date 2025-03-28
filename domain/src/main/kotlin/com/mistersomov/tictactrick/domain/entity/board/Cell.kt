@@ -7,4 +7,5 @@ data class Cell(
     val id: Int,
     val type: CellType = EMPTY,
     val trickyCard: TrickyCard? = null,
+    val remainingMoves: Int? = null,
 )

@@ -16,9 +16,9 @@ internal fun Cell.toUi(trickyCard: TrickyCard?): CellUiEntity {
         ZERO -> R.drawable.zero to R.string.zero
         EMPTY -> null to null
     }
-    val (card: TrickyCard?, lockedRes) = when (trickyCard) {
-        is Freezing -> trickyCard to R.drawable.ice
-        is Blaze -> trickyCard to R.drawable.lava
+    val (lockedRes: Int?, lockedDescription: Int?) = when (trickyCard) {
+        is Freezing -> R.drawable.ice to R.string.tricky_card_freezing
+        is Blaze ->  R.drawable.lava to R.string.tricky_card_blaze
         else -> null to null
     }
 
@@ -27,8 +27,10 @@ internal fun Cell.toUi(trickyCard: TrickyCard?): CellUiEntity {
         imageRes = imageRes,
         imageDescription = description,
         isRevealed = type != EMPTY,
-        trickyCard = card,
+        trickyCard = trickyCard,
         lockedRes = lockedRes,
+        lockedDescription = lockedDescription,
+        remainingMoves = remainingMoves,
     )
 }
 
@@ -41,4 +43,5 @@ internal fun CellUiEntity.toDomain(): Cell =
             else -> EMPTY
         },
         trickyCard = trickyCard,
+        remainingMoves = remainingMoves,
     )
