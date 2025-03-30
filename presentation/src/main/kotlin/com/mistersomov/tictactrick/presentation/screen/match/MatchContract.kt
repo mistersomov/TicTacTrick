@@ -10,7 +10,7 @@ import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.
 interface MatchContract {
 
     sealed interface Intent {
-        data object StartGame : Intent
+        data class StartGame(val mode: BoardMode) : Intent
         data class Move(val cell: CellUiEntity): Intent
         data object Restart : Intent
         data class OnTrickyCardClicked(val card: TrickyCardUiEntity) : Intent
