@@ -3,6 +3,7 @@ package com.mistersomov.tictactrick.presentation.screen.match.viewmodel
 import app.cash.turbine.test
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
 import com.mistersomov.tictactrick.domain.entity.MatchStatus.Continue
+import com.mistersomov.tictactrick.domain.entity.board.BoardMode.FOUR
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Global
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard.Selectable
 import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCase
@@ -14,6 +15,7 @@ import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effec
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Effect.ShowTrickyCardDetails
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent
 import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.OnTrickyCardClicked
+import com.mistersomov.tictactrick.presentation.screen.match.MatchContract.Intent.Restart
 import com.mistersomov.tictactrick.presentation.screen.match.entity.board.CellUiEntity
 import com.mistersomov.tictactrick.presentation.screen.match.entity.tricky_card.TrickyCardUiEntity
 import com.mistersomov.tictactrick.presentation.screen.match.mutator.MatchStateMutator
@@ -55,6 +57,28 @@ class MatchViewModelTest {
             getRandomTrickyCardUseCase,
             mutator,
         )
+    }
+
+    @Test
+    fun `sendIntent() - Restart game`() = runTest {
+        mockkConstructor(MatchViewModel::class) {
+            // mock
+            every { anyConstructed<MatchViewModel>().viewState } returns MutableStateFlow(
+                mockk(relaxed = true) { every { boardMode } returns FOUR }
+            )
+            every { getRandomTrickyCardUseCase() } returns listOf(mockk())
+            every { mutator.mutate(any(), any()) } returns mockk()
+
+            // action
+            viewModel.sendIntent(Restart)
+
+            // assert && verify
+            assertEquals(FOUR, viewModel.viewState.value.boardMode)
+            verify {
+                getRandomTrickyCardUseCase()
+                mutator.mutate(any(), any())
+            }
+        }
     }
 
     @Test
@@ -148,7 +172,7 @@ class MatchViewModelTest {
         every { mutator.mutate(any(), any()) } returns mockk()
 
         // action
-        viewModel.sendIntent(Intent.Restart)
+        viewModel.sendIntent(Restart)
 
         // verify
         verify {

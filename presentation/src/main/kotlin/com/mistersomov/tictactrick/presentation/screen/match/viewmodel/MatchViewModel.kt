@@ -86,7 +86,8 @@ class MatchViewModel @Inject constructor(
 
     private fun handleIntent(intent: Intent) {
         when (intent) {
-            is StartGame, Restart -> startGame()
+            is StartGame -> startGame(intent.mode)
+            is Restart -> startGame(viewState.value.boardMode)
             is Move -> move(intent.cell)
             is OnTrickyCardClicked -> handleTrickyCardClicked(intent.card)
             is ActivateTrickyCard -> activateTrickyCard(intent.card)
@@ -97,13 +98,13 @@ class MatchViewModel @Inject constructor(
         setEffect { ShowTrickyCardDetails(entity) }
     }
 
-    private fun startGame() {
+    private fun startGame(mode: BoardMode) {
         val trickyCards = getRandomTrickyCardUseCase()
         setState {
             mutator.mutate(
                 currentState = viewState.value,
                 event = MatchMutatorEvent.StartMatch(
-                    mode = BoardMode.FOUR, // TODO Прокинуть через аргумиенты
+                    mode = mode,
                     trickyCards = trickyCards,
                 ),
             )

@@ -6,6 +6,9 @@
     <string name="main_menu_settings">Settings</string>
     <string name="main_menu_quit">Quit</string>
 
+    <!-- Match Mode -->
+    <string name="match_mode_4x4">4x4</string>
+
     <!-- Match -->
     <string name="cross">Cross</string>
     <string name="zero">Zero</string>

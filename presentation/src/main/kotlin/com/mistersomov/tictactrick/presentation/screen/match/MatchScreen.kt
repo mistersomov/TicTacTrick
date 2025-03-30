@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mistersomov.core.ui_kit.TicTacTrickTheme
 import com.mistersomov.tictactrick.domain.entity.MatchStatus
+import com.mistersomov.tictactrick.domain.entity.board.BoardMode
 import com.mistersomov.tictactrick.presentation.R
 import com.mistersomov.tictactrick.presentation.common.DialogButton
 import com.mistersomov.tictactrick.presentation.common.GameDialog
@@ -46,7 +47,10 @@ import com.mistersomov.tictactrick.presentation.screen.match.viewmodel.MatchView
 import kotlinx.coroutines.delay
 
 @Composable
-fun MatchScreen(viewModel: MatchViewModel = hiltViewModel()) {
+fun MatchScreen(
+    viewModel: MatchViewModel = hiltViewModel(),
+    boardMode: BoardMode,
+) {
     val viewState by viewModel.viewState.collectAsState()
     val sendIntent by remember { mutableStateOf(viewModel::sendIntent) }
 
@@ -60,7 +64,7 @@ fun MatchScreen(viewModel: MatchViewModel = hiltViewModel()) {
 
     LaunchedEffect(Unit) {
         if (!hasStarted) {
-            sendIntent(StartGame)
+            sendIntent(StartGame(boardMode))
             hasStarted = true
         }
     }
@@ -151,6 +155,6 @@ fun MatchScreen(viewModel: MatchViewModel = hiltViewModel()) {
 @Composable
 private fun MatchScreenPreview() {
     TicTacTrickTheme {
-        MatchScreen()
+        MatchScreen(boardMode = BoardMode.FOUR)
     }
 }
