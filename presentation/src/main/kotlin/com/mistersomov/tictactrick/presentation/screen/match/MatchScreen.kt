@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -116,7 +118,7 @@ fun MatchScreen(
                 Text(text = "Player 1")
             }
 
-            DialogButton(R.drawable.ic_baseline_refresh_24) { sendIntent(Restart) }
+                DialogButton(Icons.Default.Refresh) { sendIntent(Restart) }
 
             Column(
                 modifier = Modifier

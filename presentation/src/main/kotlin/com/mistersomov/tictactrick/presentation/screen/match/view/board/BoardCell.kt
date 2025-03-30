@@ -47,7 +47,6 @@ fun BoardCell(
     val interactionSource = remember { MutableInteractionSource() }
 
     val scaleVal = remember { Animatable(1f) }
-
     val adjustedCellSize = cellSize.coerceAtLeast(24.dp)
     val imageSize = 0.8 * adjustedCellSize
 
@@ -69,7 +68,7 @@ fun BoardCell(
                 targetValue = 1f,
                 animationSpec = keyframes {
                     durationMillis = 100
-                    1.5f at 20 using LinearOutSlowInEasing
+                    1.5f at 70 using LinearOutSlowInEasing
                 }
             )
         } else {
@@ -80,7 +79,6 @@ fun BoardCell(
     Box(
         modifier = Modifier
             .size(adjustedCellSize)
-            .scale(scaleVal.value)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
@@ -88,37 +86,44 @@ fun BoardCell(
             ),
         contentAlignment = Alignment.Center,
     ) {
-        entity.lockedRes?.let { image ->
-            Image(
-                modifier = Modifier.size(adjustedCellSize),
-                painter = painterResource(image),
-                contentDescription = entity.lockedDescription?.let { stringResource(it) },
-                contentScale = ContentScale.FillBounds
-            )
-        }
-        entity.remainingMoves?.let { moves ->
-            AnimatedContent(
-                targetState = moves,
-                transitionSpec = {
-                    slideInVertically { height -> -height } + fadeIn() togetherWith
-                            slideOutVertically { height -> -height } + fadeOut()
-                },
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = it.toString(),
-                    fontSize = 36.sp,
-                    color = Color.Green,
+        when {
+            entity.lockedRes != null && entity.remainingMoves != null -> {
+                Image(
+                    modifier = Modifier.size(adjustedCellSize),
+                    painter = painterResource(entity.lockedRes),
+                    contentDescription = entity.lockedDescription?.let { stringResource(it) },
+                    contentScale = ContentScale.FillBounds
+                )
+                AnimatedContent(
+                    targetState = entity.remainingMoves,
+                    transitionSpec = {
+                        slideInVertically { height -> -height } + fadeIn() togetherWith
+                                slideOutVertically { height -> -height } + fadeOut()
+                    },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = it.toString(),
+                        fontSize = 36.sp,
+                        color = Color.Green,
+                    )
+                }
+            }
+            entity.imageRes != null && entity.imageDescription != null -> {
+                Image(
+                    modifier = Modifier
+                        .size(imageSize)
+                        .scale(scaleVal.value),
+                    painter = painterResource(entity.imageRes),
+                    contentDescription = stringResource(entity.imageDescription),
                 )
             }
         }
-        entity.imageRes?.let { image ->
-            Image(
-                modifier = Modifier.size(imageSize),
-                painter = painterResource(image),
-                contentDescription = entity.imageDescription?.let { stringResource(it) },
-            )
-        }
+        Image(
+            modifier = Modifier.size(adjustedCellSize),
+            painter = painterResource(R.drawable.cell),
+            contentDescription = stringResource(R.string.empty),
+        )
     }
 }
 
@@ -130,7 +135,8 @@ private fun MatchCellPreview() {
             BoardCell(
                 entity = CellUiEntity(
                     id = 0,
-                    imageRes = R.drawable.cross,
+                    imageRes = null,
+                    imageDescription = null,
                 ),
                 cellSize = 120.dp,
                 isWinningCell = true,
@@ -139,7 +145,31 @@ private fun MatchCellPreview() {
             BoardCell(
                 entity = CellUiEntity(
                     id = 1,
+                    imageRes = R.drawable.cross,
+                    imageDescription = R.string.cross,
+                ),
+                cellSize = 120.dp,
+                isWinningCell = true,
+                onClick = {},
+            )
+            BoardCell(
+                entity = CellUiEntity(
+                    id = 2,
                     imageRes = R.drawable.zero,
+                    imageDescription = R.string.zero,
+                ),
+                cellSize = 120.dp,
+                isWinningCell = false,
+                onClick = {},
+            )
+            BoardCell(
+                entity = CellUiEntity(
+                    id = 2,
+                    lockedRes = R.drawable.ice,
+                    lockedDescription = R.string.tricky_card_freezing,
+                    imageRes = null,
+                    imageDescription = null,
+                    remainingMoves = 3,
                 ),
                 cellSize = 120.dp,
                 isWinningCell = false,

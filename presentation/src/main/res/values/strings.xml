@@ -10,6 +10,7 @@
     <string name="match_mode_4x4">4x4</string>
 
     <!-- Match -->
+    <string name="empty">Empty</string>
     <string name="cross">Cross</string>
     <string name="zero">Zero</string>
 
