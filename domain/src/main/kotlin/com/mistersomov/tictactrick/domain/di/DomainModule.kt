@@ -1,5 +1,7 @@
 package com.mistersomov.tictactrick.domain.di
 
+import com.mistersomov.tictactrick.domain.entity.algorithm.Algorithm
+import com.mistersomov.tictactrick.domain.entity.algorithm.Minimax
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard
 import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCase
 import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCaseImpl
@@ -50,4 +52,9 @@ object DomainProvidesModule {
 
         return GetRandomTrickyCardUseCaseImpl(cards)
     }
+
+    @Provides
+    @ViewModelScoped
+    fun provideMinimax(getMatchStatusUseCase: GetMatchStatusUseCase): Algorithm =
+        Minimax(getMatchStatusUseCase)
 }
