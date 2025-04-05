@@ -1,7 +1,7 @@
 package com.mistersomov.tictactrick.domain.di
 
-import com.mistersomov.tictactrick.domain.entity.algorithm.Algorithm
-import com.mistersomov.tictactrick.domain.entity.algorithm.Minimax
+import com.mistersomov.tictactrick.domain.algorithm.Algorithm
+import com.mistersomov.tictactrick.domain.algorithm.Minimax
 import com.mistersomov.tictactrick.domain.entity.tricky_card.TrickyCard
 import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCase
 import com.mistersomov.tictactrick.domain.use_case.ApplyTrickyCardUseCaseImpl
